@@ -21,9 +21,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         #         Consider adding a token if you have private submodules or specific git operations
-        with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # Only if standard GITHUB_TOKEN is insufficient
-          fetch-depth: 0 # Only if you need full git history (e.g., for release plugins
+#        with:
+#          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # Only if standard GITHUB_TOKEN is insufficient
+#          fetch-depth: 0 # Only if you need full git history (e.g., for release plugins
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
