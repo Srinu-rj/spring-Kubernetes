@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/api")
 public class SpringKubernetesApplication {
-
+//	dckr_pat_wcA-E0phfP25ve7s6cf4LQ8yF7A
+//	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
 	public static void main(String[] args) {
 		SpringApplication.run(SpringKubernetesApplication.class, args);
 	}
