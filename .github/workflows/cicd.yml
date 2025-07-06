@@ -5,8 +5,13 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
-    runs-on: [ ubuntu-latest ]
+  Building-and-Testing:
+    runs-on:  ubuntu-latest
+    #Todo Not strictly needed for Docker Hub, but good to include if you might switch.
+    #Todo Required to push to GitHub Container Registry (ghcr.io)
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
