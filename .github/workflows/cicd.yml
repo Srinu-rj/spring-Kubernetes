@@ -6,43 +6,63 @@ on:
 
 jobs:
   build:
-    runs-on: [ubuntu-latest]
+    runs-on: [ ubuntu-latest ]
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      # Consider adding a token if you have private submodules or specific git operations
-#      with:
-#         token: ${{ secrets.YOUR_PAT_TOKEN }} # Only if standard GITHUB_TOKEN is insufficient
-#         fetch-depth: 0 # Only if you need full git history (e.g., for release plugins
+      - name: Checkout code
+        uses: actions/checkout@v4
+        # Consider adding a token if you have private submodules or specific git operations
+      #      with:
+      #         token: ${{ secrets.YOUR_PAT_TOKEN }} # Only if standard GITHUB_TOKEN is insufficient
+      #         fetch-depth: 0 # Only if you need full git history (e.g., for release plugins
 
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-        cache: 'maven' # Strongly recommended for faster builds!
-        cache-dependency-path: 'pom.xml' # Or '**/pom.xml' for multi-module projects
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven' # Strongly recommended for faster builds!
+          cache-dependency-path: 'pom.xml' # Or '**/pom.xml' for multi-module projects
 
-    - name: Build with Maven (No Tests)
-      run: mvn clean install -DskipTests -B # -B for batch mode (non-interactive)
+      - name: Build with Maven (No Tests)
+        run: mvn clean install -DskipTests -B # -B for batch mode (non-interactive)
 
-    - name: Run Unit Tests
-      run: mvn test -B # -B for batch mode (non-interactive)
+      - name: Run Unit Tests
+        run: mvn test -B # -B for batch mode (non-interactive)
 
-    # Optional: Add integration tests as a separate step
-    - name: Run Integration Tests
-      run: mvn verify -Pintegration-tests # Assuming you have a profile for ITs
+      # Optional: Add integration tests as a separate step
+      - name: Run Integration Tests
+        run: mvn verify -Pintegration-tests # Assuming you have a profile for ITs
 
-      # Optional: Package and create artifact (if not already done by 'install')
-      # This is especially useful if 'install' wasn't used, or you want a fresh package post-tests
-    - name: Package Application
-      run: mvn package -DskipTests -B # Skip tests again if they already ran
-      #   This step is usually redundant if 'mvn clean install' was used as it also packages
+        # Optional: Package and create artifact (if not already done by 'install')
+        # This is especially useful if 'install' wasn't used, or you want a fresh package post-tests
+      - name: Package Application
+        run: mvn package -DskipTests -B # Skip tests again if they already ran
+        #   This step is usually redundant if 'mvn clean install' was used as it also packages
 
-      # Optional: Upload build artifacts (e.g., JAR/WAR file)
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: your-application-artifact
-        path: target/*.jar # Adjust path as needed (e.g., target/*.war)
-        # retain-days: 5 # Good practice to limit retention for production artifacts
+        # Optional: Upload build artifacts (e.g., JAR/WAR file)
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: your-application-artifact
+          path: target/*.jar # Adjust path as needed (e.g., target/*.war)
+          # retain-days: 5 # Good practice to limit retention for production artifacts
+      - name: Simulate Build and Create Artifacts
+          # In a real application, this would be your actual build command (e.g., mvn package, npm run build)
+          # which outputs files to a 'target' or 'dist' directory.
+        # Here, we create a 'staging' directory and a dummy file to represent your build output.
+        run: |
+          echo "Simulating application build..."
+          mkdir -p staging/app
+          echo "This is your compiled application or build artifact." > staging/app/my-app.txt
+          echo "Build version: ${{ github.run_number }}" > staging/app/version.txt
+          echo "Build output created in 'staging' directory."    
+
+      - name: Upload Build Artifact
+        # This step takes the 'staging' directory and uploads it as an artifact
+        # named 'application-package'. This artifact can then be downloaded by other jobs.
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-package # A descriptive name for your artifact
+          path: staging/             # The path to the directory or file(s) to upload
+          # retention-days: 5        # Optional: How long to retain the artifact (e.g., 5 days).
+          # Good practice for managing storage in production.
