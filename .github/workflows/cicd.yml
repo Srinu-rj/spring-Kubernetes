@@ -81,9 +81,9 @@ jobs:
       - name: Build docker image
         run: docker build -t spring-application-k8s .
       - name: Tag docker image
-        run: docker tag spring-application-k8s srinu641/spring-application-k8s:v3.01
+        run: docker tag spring-application-k8s srinu641/spring-application-k8s:v3.03
       - name: Push docker image
-        run: docker push srinu641/spring-application-k8s:v3.01
+        run: docker push srinu641/spring-application-k8s:v3.03
       - name: Getting Docker Images
         run: |
           docker images
