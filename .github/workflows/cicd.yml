@@ -77,7 +77,7 @@ jobs:
           # retention-days: 5        # Optional: How long to retain the artifact (e.g., 5 days).
           # Good practice for managing storage in production.
       - name: Login to docker hub
-        run: docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+        run: docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
       - name: Build docker image
         run: docker build -t spring-application-k8s .
       - name: Tag docker image
