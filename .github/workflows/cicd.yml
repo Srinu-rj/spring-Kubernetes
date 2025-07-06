@@ -88,6 +88,7 @@ jobs:
         run: |
           docker images
           docker ps -a
+
       - name: Run Trivy vulnerability scan
         uses: aquasecurity/trivy-action@0.20.0 # Use a specific version for stability
         with:
