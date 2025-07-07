@@ -104,64 +104,78 @@ jobs:
           docker images
           docker ps -a
 
-      - name: Scan Docker Image with Trivy
-        run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${{ github.sha }}
-
-      # SonarQube Analysis
-#      - name: SonarCloud Scan
-#        uses: SonarSource/sonarcloud-github-action@master
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - name: Install ArgoCD CLI
-        run: |
-          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-          chmod +x argocd
-          sudo mv argocd /usr/local/bin/argocd
-
-      - name: Login to ArgoCD
-        run: |
-          argocd login ${{ secrets.ARGOCD_SERVER }} \
-              --username ${{ secrets.ARGOCD_USERNAME }} \
-              --password ${{ secrets.ARGOCD_PASSWORD }} \
-              --insecure
-
-      - name: Run Trivy vulnerability scan
-        uses: aquasecurity/trivy-action@0.20.0 # Use a specific version for stability
-        with:
-          image-ref: 'spring-application-k8s' # Scan the locally built image
-          format: 'sarif' # Recommended for GitHub Code Scanning integration
-          output: 'trivy-results.sarif'
-          exit-code: '1' # Fail the action if vulnerabilities are found
-          ignore-unfixed: true
-          severity: 'CRITICAL,HIGH' # Only report critical and high severity issues
-
-#      - name:
-#        uses: aws-action/configure-aws-credentials@v1
+#      - name: Scan Docker Image with Trivy
+#        run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${{ github.sha }}
+#      # TODO SONARQUBE
+#      - uses: actions/checkout@v4
 #        with:
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          aws-secret-access-key: ${{ secrets.AWS_SECRETS_KEY }}
-#          aws-region: us-east-1
-#
-#      - name: Login to Amazon ECR
-#        id: login-ecr
-#        uses: aws-actions/amazon-ecr-login@v1
-#
-#      - name: Build ,Tag, and push too ECR
+#          # Disabling shallow clones is recommended for improving the relevancy of reporting
+#          fetch-depth: 0
+#      - name: SonarQube Scan
+#        uses: SonarSource/sonarqube-scan-action@v5.0.0
 #        env:
-#          ECP_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-#          ECR_REGISTRY: repo_ecr_name
-#          IMAGE_TAG: ${{ github.sha }}
-#        run: |
-#          docker build -t $ECR_REGISTRY/$ECR_REGISTRY:v1.0
-#          docker push -a $ECR_REGISTRY/$ECR_REGISTRY:v1.0
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
 #
-#      - name: update kube config
-#        run: aws eks update_kubeconfig --name cluster_name --region us-east-1
-#
-#      - name: Deploy k8s
+#      - name: SonarQube Quality Gate check
+#        id: sonarqube-quality-gate-check
+#        uses: sonarsource/sonarqube-quality-gate-action@master
+#        with:
+#          pollingTimeoutSec: 600
+#        env:
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+#      - name: Install ArgoCD CLI
 #        run: |
-#          k apply -f file_name -n namespce_name
+#          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+#          chmod +x argocd
+#          sudo mv argocd /usr/local/bin/argocd
+#
+#      - name: Login to ArgoCD
+#        run: |
+#          argocd login ${{ secrets.ARGOCD_SERVER }} \
+#              --username ${{ secrets.ARGOCD_USERNAME }} \
+#              --password ${{ secrets.ARGOCD_PASSWORD }} \
+#              --insecure
+#
+#      - name: Run Trivy vulnerability scan
+#        uses: aquasecurity/trivy-action@0.20.0 # Use a specific version for stability
+#        with:
+#          image-ref: 'spring-application-k8s' # Scan the locally built image
+#          format: 'sarif' # Recommended for GitHub Code Scanning integration
+#          output: 'trivy-results.sarif'
+#          exit-code: '1' # Fail the action if vulnerabilities are found
+#          ignore-unfixed: true
+#          severity: 'CRITICAL,HIGH' # Only report critical and high severity issues
+
+
+      #TODO AWS ECR
+      #      - name:
+      #        uses: aws-action/configure-aws-credentials@v1
+      #        with:
+      #          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #          aws-secret-access-key: ${{ secrets.AWS_SECRETS_KEY }}
+      #          aws-region: us-east-1
+      #
+      #      - name: Login to Amazon ECR
+      #        id: login-ecr
+      #        uses: aws-actions/amazon-ecr-login@v1
+      #
+      #      - name: Build ,Tag, and push too ECR
+      #        env:
+      #          ECP_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #          ECR_REGISTRY: repo_ecr_name
+      #          IMAGE_TAG: ${{ github.sha }}
+      #        run: |
+      #          docker build -t $ECR_REGISTRY/$ECR_REGISTRY:v1.0
+      #          docker push -a $ECR_REGISTRY/$ECR_REGISTRY:v1.0
+      #
+      #      - name: update kube config
+      #        run: aws eks update_kubeconfig --name cluster_name --region us-east-1
+      #
+      #      - name: Deploy k8s
+      #        run: |
+      #          k apply -f file_name -n namespce_name
 
       # Set up AWS Credentials
 #      - name: Configure AWS Credentials
