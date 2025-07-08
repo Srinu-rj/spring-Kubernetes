@@ -10,6 +10,8 @@ env:
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   JAVA_VERSION: 21 #${{ environment.JAVA_VERSION }}
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
   AWS_REGION: ${{ secrets.AWS_REGION }}
   ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
   ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
@@ -168,14 +170,14 @@ jobs:
 #        id: login-ecr
 #        uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build ,Tag, and push too ECR
-        env:
-          ECP_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REGISTRY: repo_ecr_name
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REGISTRY:v1.0
-          docker push -a $ECR_REGISTRY/$ECR_REGISTRY:v1.0
+#      - name: Build ,Tag, and push too ECR
+#        env:
+#          ECP_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#          ECR_REGISTRY: repo_ecr_name
+#          IMAGE_TAG: ${{ github.sha }}
+#        run: |
+#          docker build -t $ECR_REGISTRY/$ECR_REGISTRY:v1.0
+#          docker push -a $ECR_REGISTRY/$ECR_REGISTRY:v1.0
 
 #      - name: Send Email Notification
 #        uses: dawidd6/action-send-mail@v3
