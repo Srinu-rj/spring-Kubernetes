@@ -10,6 +10,7 @@ env:
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   JAVA_VERSION: 21 #${{ environment.JAVA_VERSION }}
+  MAVEN_VERSION: 3.8.2
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
   AWS_REGION: ${{ secrets.AWS_REGION }}
@@ -49,7 +50,7 @@ jobs:
       - name: Setup Maven
         uses: stCarolas/setup-maven@v4.4
         with:
-          maven-version: 3.8.2
+          maven-version: ${{ env.MAVEN_VERSION }} #3.8.2
 
       - name: Build with Maven (No Tests)
         run: mvn clean install -DskipTests -B # -B for batch mode (non-interactive)
