@@ -13,15 +13,18 @@ env:
   MAVEN_VERSION: 3.8.2
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+  JF_USER: ${{ secrets.JF_USER }}
+  JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+  JF_URL: ${{ secrets.JF_URL}}
   AWS_REGION: ${{ secrets.AWS_REGION }}
   ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
   ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
   ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
   ECS_TASK_DEFINITION_FAMILY: ${{ secrets.ECS_TASK_DEFINITION_FAMILY }}
   ECS_CONTAINER_NAME: ${{ secrets.ECS_CONTAINER_NAME }}
-  ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
-  ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
-  ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
+  ARGO_CD_SERVER: ${{ secrets.ARGO_CD_SERVER }}
+  ARGO_CD_USERNAME: ${{ secrets.ARGO_CD_USERNAME }}
+  ARGO_CD_PASSWORD: ${{ secrets.ARGO_CD_PASSWORD }}
   GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
   GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
 
@@ -113,7 +116,8 @@ jobs:
           docker images
           docker ps -a
 
-       #todo Install Jfrog
+      # Todo Install Jfrog
+      # Todo Reference link to install Jfrog --> https://docs.jfrog-applications.jfrog.io/jfrog-applications/jfrog-cli/install
       - name: Install Jfrog
         run: |
           sudo mkdir -p /usr/share/keyrings;
@@ -122,6 +126,18 @@ jobs:
           sudo apt update;
           sudo apt install -y jfrog-cli-v2-jf;
           jf intro;
+#      - name: Setup JFrog CLI
+#        uses: jfrog/setup-jfrog-cli@v4
+#        env:
+#          JF_URL: ${{ secrets.JF_URL }}
+#          JF_USER: ${{ secrets.JF_USER }}
+#          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+#      - name: Download Artifacts
+#        run: jfrog rt dl artifacts/
+#      - name: Upload Artifacts
+#        run: jfrog rt u aether artifacts/
+#      - name: Publish Build Info
+#        run: jfrog rt bp
 
       # TODO Trivy Install
       - name: Install Trivy
@@ -166,11 +182,12 @@ jobs:
 
 #      - name: Login to ArgoCD
 #        run: |
-#            argocd login ${{ secrets.ARGOCD_SERVER }} \
-#                --username ${{ secrets.ARGOCD_USERNAME }} \
-#                --password ${{ secrets.ARGOCD_PASSWORD }} \
+#            argocd login ${{ secrets.ARGO_CD_SERVER }} \
+#                --username ${{ secrets.ARGO_CD_USERNAME }} \
+#                --password ${{ secrets.ARGO_CD_PASSWORD }} \
 #                --insecure
-       # todo AWS ECR
+
+       # Todo AWS ECR Spring Boot
 #      - name: Configure AWS credentials
 #        uses: aws-action/configure-aws-credentials@v1
 #        with:
