@@ -9,7 +9,7 @@ env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  JAVA_VERSION: ${{ env.JAVA_VERSION }}
+  JAVA_VERSION: 21 #${{ environment.JAVA_VERSION }}
   AWS_REGION: ${{ secrets.AWS_REGION }}
   ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
   ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
