@@ -3,11 +3,13 @@ name: spring-boot Github Actions
 on:
   push:
     branches: [ "master" ]
+
 env:
   PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  JAVA_VERSION: ${{ env.JAVA_VERSION }}
   AWS_REGION: ${{ secrets.AWS_REGION }}
   ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
   ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
@@ -31,14 +33,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # Todo Disabling shallow clones is recommended for improving the relevancy of reporting
+          fetch-depth: 0
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
-          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}   # Todo Make It '21'
+          distribution: 'temurin' # 'adopt'
+          architecture: x64
           cache: 'maven' # Strongly recommended for faster builds!
           cache-dependency-path: 'pom.xml' # Or '**/pom.xml' for multi-module projects
-
       - name: Setup Maven
         uses: stCarolas/setup-maven@v4.4
         with:
@@ -92,7 +97,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }} # Accessing the username from GitHub Secrets
           password: ${{ secrets.DOCKER_PASSWORD }} # Accessing the password/token from GitHub Secrets
-
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       - name: Build docker image
         run: docker build -t spring-application-k8s .
       - name: Tag docker image
@@ -103,81 +109,87 @@ jobs:
         run: |
           docker images
           docker ps -a
+      # TODO Trivy Install
+      - name: Install Trivy
+        run: |
+          sudo apt-get install -y wget gnupg
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
+      # TODO  Scan the Image using Trivy
+      - name: Trivy image scan
+        run: trivy image srinu641/spring-application-k8s:v3.02 #todo Image Version
 
 #      - name: Scan Docker Image with Trivy
 #        run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${{ github.sha }}
-#      # TODO SONARQUBE
-#      - uses: actions/checkout@v4
-#        with:
-#          # Disabling shallow clones is recommended for improving the relevancy of reporting
-#          fetch-depth: 0
-#      - name: SonarQube Scan
-#        uses: SonarSource/sonarqube-scan-action@v5.0.0
-#        env:
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-#
-#      - name: SonarQube Quality Gate check
-#        id: sonarqube-quality-gate-check
-#        uses: sonarsource/sonarqube-quality-gate-action@master
-#        with:
-#          pollingTimeoutSec: 600
-#        env:
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-#      - name: Install ArgoCD CLI
-#        run: |
-#          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-#          chmod +x argocd
-#          sudo mv argocd /usr/local/bin/argocd
-#
+      # TODO SONARQUBE
+      - uses: sonarsource/sonarqube-scan-action@master #Todo Optional [ SonarSource/sonarqube-scan-action@v5.0.0 ]
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} # Todo Install Sonarqube in Ec2 Instance Add EC2 DNS Domain in GitHub Secrets
+        with:
+          # Todo Sonarqube Project Name
+          args: >
+            -Dsonar.organization=Spring-Boot-Sonarqube
+            -Dsonar.projectKey=SonarCloudCodeAnalyisis
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+      # Todo Sonarqube quality gate
+      - name: SonarQube Quality Gate check
+        id: sonarqube-quality-gate-check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        with:
+          pollingTimeoutSec: 600
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+
+      - name: Install ArgoCD CLI
+        run: |
+          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          chmod +x argocd
+          sudo mv argocd /usr/local/bin/argocd
+
 #      - name: Login to ArgoCD
 #        run: |
-#          argocd login ${{ secrets.ARGOCD_SERVER }} \
-#              --username ${{ secrets.ARGOCD_USERNAME }} \
-#              --password ${{ secrets.ARGOCD_PASSWORD }} \
-#              --insecure
-#
-#      - name: Run Trivy vulnerability scan
-#        uses: aquasecurity/trivy-action@0.20.0 # Use a specific version for stability
+#            argocd login ${{ secrets.ARGOCD_SERVER }} \
+#                --username ${{ secrets.ARGOCD_USERNAME }} \
+#                --password ${{ secrets.ARGOCD_PASSWORD }} \
+#                --insecure
+       # todo AWS ECR
+#      - name: Configure AWS credentials
+#        uses: aws-action/configure-aws-credentials@v1
 #        with:
-#          image-ref: 'spring-application-k8s' # Scan the locally built image
-#          format: 'sarif' # Recommended for GitHub Code Scanning integration
-#          output: 'trivy-results.sarif'
-#          exit-code: '1' # Fail the action if vulnerabilities are found
-#          ignore-unfixed: true
-#          severity: 'CRITICAL,HIGH' # Only report critical and high severity issues
+#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_SECRETS_KEY }}
+#          aws-region: us-east-1
+#
+#      - name: Login to Amazon ECR
+#        id: login-ecr
+#        uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Build ,Tag, and push too ECR
+        env:
+          ECP_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REGISTRY: repo_ecr_name
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REGISTRY:v1.0
+          docker push -a $ECR_REGISTRY/$ECR_REGISTRY:v1.0
 
-      #TODO AWS ECR
-      #      - name:
-      #        uses: aws-action/configure-aws-credentials@v1
-      #        with:
-      #          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #          aws-secret-access-key: ${{ secrets.AWS_SECRETS_KEY }}
-      #          aws-region: us-east-1
-      #
-      #      - name: Login to Amazon ECR
-      #        id: login-ecr
-      #        uses: aws-actions/amazon-ecr-login@v1
-      #
-      #      - name: Build ,Tag, and push too ECR
-      #        env:
-      #          ECP_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      #          ECR_REGISTRY: repo_ecr_name
-      #          IMAGE_TAG: ${{ github.sha }}
-      #        run: |
-      #          docker build -t $ECR_REGISTRY/$ECR_REGISTRY:v1.0
-      #          docker push -a $ECR_REGISTRY/$ECR_REGISTRY:v1.0
-      #
-      #      - name: update kube config
-      #        run: aws eks update_kubeconfig --name cluster_name --region us-east-1
-      #
-      #      - name: Deploy k8s
-      #        run: |
-      #          k apply -f file_name -n namespce_name
-
-      # Set up AWS Credentials
+#      - name: Send Email Notification
+#        uses: dawidd6/action-send-mail@v3
+#        with:
+#          server_address: smtp.gmail.com
+#          server_port: 465
+#          username: ${{ secrets.EMAIL_USER }}
+#          password: ${{ secrets.EMAIL_PASS }}
+#          subject: "Docker Image Scan Report"
+#          to: ${{ secrets.EMAIL_TO }}
+#          from: GitHub CI/CD <${{ secrets.EMAIL_USER }}>
+#          body: "The Trivy scan report is attached. Job Done"
+#          attachments: trivy-report.json
+       #TODO  Set up AWS Credentials
 #      - name: Configure AWS Credentials
 #        uses: aws-actions/configure-aws-credentials@v2
 #        with:
