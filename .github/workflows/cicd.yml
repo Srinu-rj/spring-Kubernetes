@@ -21,8 +21,6 @@ env:
   JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
   JF_URL: ${{ secrets.JF_URL}}
   AWS_REGION: ${{ secrets.AWS_REGION }}
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRETS_KEY:  ${{ secrets.AWS_ACCESS_KEY_ID}}
   ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
   ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
   ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
@@ -37,11 +35,6 @@ env:
 jobs:
   Building-and-Testing:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    strategy:
-#      matrix:
-#        java: [ '11', '17', '21' ] # Test against multiple Java versions (optional, adapt as needed)
-#        maven: ['3.9.9', '3.9.8','3.9.7']
     #Todo Not strictly needed for Docker Hub, but good to include if you might switch.
     #Todo Required to push to GitHub Container Registry (ghcr.io)
     permissions:
@@ -67,7 +60,6 @@ jobs:
         uses: stCarolas/setup-maven@v4.4
         with:
           maven-version: ${{ env.MAVEN_VERSION }} #3.8.2
-
       - name: Build with Maven
         #TODO Compiles, packages, and installs to local Maven repo, explicitly skipping unit and integration tests.
         #TODO Use this when you only need to build the artifact without running any tests.
@@ -84,7 +76,6 @@ jobs:
         run: |
           mvn clean verify
           mvn clean integration-test
-
       - name: Run Acceptance Tests
         #TODO Executes acceptance tests by activating a specific Maven profile named 'acceptance-tests'.
         #TODO This profile should contain the configuration for your acceptance testing framework (e.g., Cucumber, Selenium).
@@ -112,8 +103,7 @@ jobs:
           mkdir -p staging/app
           echo "This is your compiled application or build artifact." > staging/app/my-app.txt
           echo "Build version: ${{ github.run_number }}" > staging/app/version.txt
-          echo "Build output created in 'staging' directory."    
-
+          echo "Build output created in 'staging' directory."
       - name: Upload Build Artifact
         # This step takes the 'staging' directory and uploads it as an artifact
         # named 'application-package'. This artifact can then be downloaded by other jobs.
@@ -140,7 +130,6 @@ jobs:
         run: |
           docker images
           docker ps -a
-
       # Todo Install Jfrog
       # Todo Reference link to install Jfrog --> https://docs.jfrog-applications.jfrog.io/jfrog-applications/jfrog-cli/install
       - name: Install Jfrog
@@ -151,18 +140,18 @@ jobs:
           sudo apt update;
           sudo apt install -y jfrog-cli-v2-jf;
           jf intro;
-#      - name: Setup JFrog CLI
-#        uses: jfrog/setup-jfrog-cli@v4
-#        env:
-#          JF_URL: ${{ secrets.JF_URL }}
-#          JF_USER: ${{ secrets.JF_USER }}
-#          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
-#      - name: Download Artifacts
-#        run: jfrog rt dl artifacts/
-#      - name: Upload Artifacts
-#        run: jfrog rt u aether artifacts/
-#      - name: Publish Build Info
-#        run: jfrog rt bp
+      #      - name: Setup JFrog CLI
+      #        uses: jfrog/setup-jfrog-cli@v4
+      #        env:
+      #          JF_URL: ${{ secrets.JF_URL }}
+      #          JF_USER: ${{ secrets.JF_USER }}
+      #          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+      #      - name: Download Artifacts
+      #        run: jfrog rt dl artifacts/
+      #      - name: Upload Artifacts
+      #        run: jfrog rt u aether artifacts/
+      #      - name: Publish Build Info
+      #        run: jfrog rt bp
 
       # TODO Trivy Install
       - name: Install Trivy
@@ -176,76 +165,75 @@ jobs:
       - name: Trivy image scan
         run: trivy image srinu641/spring-application-k8s:v3.02 #todo Image Version
 
-#      - name: Scan Docker Image with Trivy
-#        run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${{ github.sha }}
+      #      - name: Scan Docker Image with Trivy
+      #        run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${{ github.sha }}
       # TODO SONARQUBE
-#      - uses: sonarsource/sonarqube-scan-action@master #Todo Optional [ SonarSource/sonarqube-scan-action@v5.0.0 ]
-#        env:
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} # Todo Install Sonarqube in Ec2 Instance Add EC2 DNS Domain in GitHub Secrets
-#        with:
-#          # Todo Sonarqube Project Name
-#          args: >
-#            -Dsonar.organization=Spring-Boot-Sonarqube
-#            -Dsonar.projectKey=SonarCloudCodeAnalyisis
-#            -Dsonar.python.coverage.reportPaths=coverage.xml
-#      # Todo Sonarqube quality gate
-#      - name: SonarQube Quality Gate check
-#        id: sonarqube-quality-gate-check
-#        uses: sonarsource/sonarqube-quality-gate-action@master
-#        with:
-#          pollingTimeoutSec: 600
-#        env:
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+      #      - uses: sonarsource/sonarqube-scan-action@master #Todo Optional [ SonarSource/sonarqube-scan-action@v5.0.0 ]
+      #        env:
+      #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} # Todo Install Sonarqube in Ec2 Instance Add EC2 DNS Domain in GitHub Secrets
+      #        with:
+      #          # Todo Sonarqube Project Name
+      #          args: >
+      #            -Dsonar.organization=Spring-Boot-Sonarqube
+      #            -Dsonar.projectKey=SonarCloudCodeAnalyisis
+      #            -Dsonar.python.coverage.reportPaths=coverage.xml
+      #      # Todo Sonarqube quality gate
+      #      - name: SonarQube Quality Gate check
+      #        id: sonarqube-quality-gate-check
+      #        uses: sonarsource/sonarqube-quality-gate-action@master
+      #        with:
+      #          pollingTimeoutSec: 600
+      #        env:
+      #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
 
       - name: Install ArgoCD CLI
         run: |
           curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
           chmod +x argocd
           sudo mv argocd /usr/local/bin/argocd
+      #      - name: Login to ArgoCD
+      #        run: |
+      #            argocd login ${{ secrets.ARGO_CD_SERVER }} \
+      #                --username ${{ secrets.ARGO_CD_USERNAME }} \
+      #                --password ${{ secrets.ARGO_CD_PASSWORD }} \
+      #                --insecure
 
-#      - name: Login to ArgoCD
-#        run: |
-#            argocd login ${{ secrets.ARGO_CD_SERVER }} \
-#                --username ${{ secrets.ARGO_CD_USERNAME }} \
-#                --password ${{ secrets.ARGO_CD_PASSWORD }} \
-#                --insecure
+      # Todo AWS ECR Spring Boot
+      #      - name: Configure AWS credentials
+      #        uses: aws-action/configure-aws-credentials@v1
+      #        with:
+      #          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #          aws-secret-access-key: ${{ secrets.AWS_SECRETS_KEY }}
+      #          aws-region: us-east-1
+      #
+      #      - name: Login to Amazon ECR
+      #        id: login-ecr
+      #        uses: aws-actions/amazon-ecr-login@v1
 
-#       # Todo AWS ECR Spring Boot
-#      - name: Configure AWS credentials
-#        uses: aws-action/configure-aws-credentials@v1
-#        with:
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          aws-secret-access-key: ${{ secrets.AWS_SECRETS_KEY }}
-#          aws-region: ap-south-1
+      #      - name: Build ,Tag, and push too ECR
+      #        env:
+      #          ECP_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #          ECR_REGISTRY: repo_ecr_name
+      #          IMAGE_TAG: ${{ github.sha }}
+      #        run: |
+      #          docker build -t $ECR_REGISTRY/$ECR_REGISTRY:v1.0
+      #          docker push -a $ECR_REGISTRY/$ECR_REGISTRY:v1.0
 
-#      - name: Login to Amazon ECR
-#        id: login-ecr
-#        uses: aws-actions/amazon-ecr-login@v1
-
-#      - name: Build ,Tag, and push too ECR
-#        env:
-#          ECP_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-#          ECR_REGISTRY: repo_ecr_name
-#          IMAGE_TAG: ${{ github.sha }}
-#        run: |
-#          docker build -t $ECR_REGISTRY/$ECR_REGISTRY:v1.0
-#          docker push -a $ECR_REGISTRY/$ECR_REGISTRY:v1.0
-
-#      - name: Send Email Notification
-#        uses: dawidd6/action-send-mail@v3
-#        with:
-#          server_address: smtp.gmail.com
-#          server_port: 465
-#          username: ${{ secrets.EMAIL_USER }}
-#          password: ${{ secrets.EMAIL_PASS }}
-#          subject: "Docker Image Scan Report"
-#          to: ${{ secrets.EMAIL_TO }}
-#          from: GitHub CI/CD <${{ secrets.EMAIL_USER }}>
-#          body: "The Trivy scan report is attached. Job Done"
-#          attachments: trivy-report.json
-       #TODO  Set up AWS Credentials
+      #      - name: Send Email Notification
+      #        uses: dawidd6/action-send-mail@v3
+      #        with:
+      #          server_address: smtp.gmail.com
+      #          server_port: 465
+      #          username: ${{ secrets.EMAIL_USER }}
+      #          password: ${{ secrets.EMAIL_PASS }}
+      #          subject: "Docker Image Scan Report"
+      #          to: ${{ secrets.EMAIL_TO }}
+      #          from: GitHub CI/CD <${{ secrets.EMAIL_USER }}>
+      #          body: "The Trivy scan report is attached. Job Done"
+      #          attachments: trivy-report.json
+      #TODO  Set up AWS Credentials
 #      - name: Configure AWS Credentials
 #        uses: aws-actions/configure-aws-credentials@v2
 #        with:
