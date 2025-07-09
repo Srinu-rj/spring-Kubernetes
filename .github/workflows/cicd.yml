@@ -37,6 +37,9 @@ env:
 jobs:
   Building-and-Testing:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ '11', '17', '21' ] # Test against multiple Java versions (optional, adapt as needed)
     #Todo Not strictly needed for Docker Hub, but good to include if you might switch.
     #Todo Required to push to GitHub Container Registry (ghcr.io)
     permissions:
@@ -53,7 +56,7 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: ${{ env.JAVA_VERSION }}   # Todo Make It '21'
+          java-version: ${{ matrix.java }} # Todo Make It '21'
           distribution: 'temurin' # 'adopt'
           architecture: x64
           cache: 'maven' # Strongly recommended for faster builds!
@@ -206,13 +209,13 @@ jobs:
 #                --password ${{ secrets.ARGO_CD_PASSWORD }} \
 #                --insecure
 
-       # Todo AWS ECR Spring Boot
-      - name: Configure AWS credentials
-        uses: aws-action/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRETS_KEY }}
-          aws-region: ap-south-1
+#       # Todo AWS ECR Spring Boot
+#      - name: Configure AWS credentials
+#        uses: aws-action/configure-aws-credentials@v1
+#        with:
+#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_SECRETS_KEY }}
+#          aws-region: ap-south-1
 
 #      - name: Login to Amazon ECR
 #        id: login-ecr
