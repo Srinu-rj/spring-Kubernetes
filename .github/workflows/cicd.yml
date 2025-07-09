@@ -60,7 +60,7 @@ jobs:
         uses: stCarolas/setup-maven@v4.4
         with:
           maven-version: ${{ env.MAVEN_VERSION }} #3.8.2
-      - name: Build with Maven (Skip Tests)
+      - name: Build with Maven
         #TODO Compiles, packages, and installs to local Maven repo, explicitly skipping unit and integration tests.
         #TODO Use this when you only need to build the artifact without running any tests.
         run: mvn clean install
