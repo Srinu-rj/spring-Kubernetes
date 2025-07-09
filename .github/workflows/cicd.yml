@@ -39,9 +39,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
-      matrix:
-        java: [ '11', '17', '21' ] # Test against multiple Java versions (optional, adapt as needed)
-        maven: ['3.9.9', '3.9.8','3.9.7']
+#      matrix:
+#        java: [ '11', '17', '21' ] # Test against multiple Java versions (optional, adapt as needed)
+#        maven: ['3.9.9', '3.9.8','3.9.7']
     #Todo Not strictly needed for Docker Hub, but good to include if you might switch.
     #Todo Required to push to GitHub Container Registry (ghcr.io)
     permissions:
@@ -58,7 +58,7 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: ${{ matrix.java }} # Todo Make It '21'
+          java-version: ${{ env.JAVA_VERSION }}   # Todo Make It '21'
           distribution: 'temurin' # 'adopt'
           architecture: x64
           cache: 'maven' # Strongly recommended for faster builds!
@@ -66,7 +66,7 @@ jobs:
       - name: Setup Maven
         uses: stCarolas/setup-maven@v4.4
         with:
-          maven-version: ${{ matrix.maven }} #3.8.2
+          maven-version: ${{ env.MAVEN_VERSION }} #3.8.2
 
       - name: Build with Maven
         #TODO Compiles, packages, and installs to local Maven repo, explicitly skipping unit and integration tests.
