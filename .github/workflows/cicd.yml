@@ -21,6 +21,9 @@ env:
   JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
   JF_URL: ${{ secrets.JF_URL}}
   AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRETS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID}}
   ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
   ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
   ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
@@ -60,14 +63,15 @@ jobs:
         uses: stCarolas/setup-maven@v4.4
         with:
           maven-version: ${{ env.MAVEN_VERSION }} #3.8.2
-      - name: Build with Maven
+
         #TODO Compiles, packages, and installs to local Maven repo, explicitly skipping unit and integration tests.
         #TODO Use this when you only need to build the artifact without running any tests.
+      - name: Build with Maven
         run: mvn clean install
 
-      - name: Run Unit Tests
         #TODO Executes only unit tests using the Maven Surefire Plugin.
         #TODO This is fast and ideal for quick feedback on code changes.
+      - name: Run Unit Tests
         run: mvn test
 
       - name: Run Integration Tests
@@ -76,43 +80,21 @@ jobs:
         run: |
           mvn clean verify
           mvn clean integration-test
-      - name: Run Acceptance Tests
+
         #TODO Executes acceptance tests by activating a specific Maven profile named 'acceptance-tests'.
         #TODO This profile should contain the configuration for your acceptance testing framework (e.g., Cucumber, Selenium).
+      - name: Run Acceptance Tests
         run: mvn clean verify -Pacceptance-tests
 
-      - name: Run Performance Tests
         #TODO Executes performance tests by activating a specific Maven profile named 'perf-tests'.
         #TODO This profile should encapsulate the execution of your performance testing tool (e.g., JMeter, Gatling).
         #TODO Often, performance tests are run less frequently due to their resource intensity.
+      - name: Run Performance Tests
         run: mvn clean verify -Pperf-tests
 
-        # Optional: Upload build artifacts (e.g., JAR/WAR file)
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: your-application-artifact
-          path: target/*.jar # Adjust path as needed (e.g., target/*.war)
-          # retain-days: 5 # Good practice to limit retention for production artifacts
-      - name: Simulate Build and Create Artifacts
-        # In a real application, this would be your actual build command (e.g., mvn package, npm run build)
-        # which outputs files to a 'target' or 'dist' directory.
-        # Here, we create a 'staging' directory and a dummy file to represent your build output.
-        run: |
-          echo "Simulating application build..."
-          mkdir -p staging/app
-          echo "This is your compiled application or build artifact." > staging/app/my-app.txt
-          echo "Build version: ${{ github.run_number }}" > staging/app/version.txt
-          echo "Build output created in 'staging' directory."
-      - name: Upload Build Artifact
-        # This step takes the 'staging' directory and uploads it as an artifact
-        # named 'application-package'. This artifact can then be downloaded by other jobs.
-        uses: actions/upload-artifact@v4
-        with:
-          name: application-package # A descriptive name for your artifact
-          path: staging/             # The path to the directory or file(s) to upload
-          # retention-days: 5        # Optional: How long to retain the artifact (e.g., 5 days).
-          # Good practice for managing storage in production.
+      - name: Run OWASP Dependency Check
+        run: mvn org.owasp:dependency-check-maven:check -Dformat=HTML -DoutputDirectory=target/dependency-check
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3 # Using the official Docker login action
         with:
@@ -140,6 +122,7 @@ jobs:
           sudo apt update;
           sudo apt install -y jfrog-cli-v2-jf;
           jf intro;
+
       #      - name: Setup JFrog CLI
       #        uses: jfrog/setup-jfrog-cli@v4
       #        env:
@@ -202,27 +185,25 @@ jobs:
 
       # Todo AWS ECR Spring Boot
       #      - name: Configure AWS credentials
-      #        uses: aws-action/configure-aws-credentials@v1
+      #        uses: aws-action/configure-aws-credentials@v2
       #        with:
       #          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       #          aws-secret-access-key: ${{ secrets.AWS_SECRETS_KEY }}
       #          aws-region: us-east-1
       #
-      #      - name: Login to Amazon ECR
-      #        id: login-ecr
-      #        uses: aws-actions/amazon-ecr-login@v1
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
 
-      #      - name: Build ,Tag, and push too ECR
-      #        env:
-      #          ECP_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      #          ECR_REGISTRY: repo_ecr_name
-      #          IMAGE_TAG: ${{ github.sha }}
-      #        run: |
-      #          docker build -t $ECR_REGISTRY/$ECR_REGISTRY:v1.0
-      #          docker push -a $ECR_REGISTRY/$ECR_REGISTRY:v1.0
+      - name: Build and push Docker image
+        run: |
+          cd backend
+          docker buildx create --use
+          docker buildx inspect --bootstrap
+          docker buildx build --platform linux/arm64 -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_BACKEND_IMAGE:latest --push .
 
       #      - name: Send Email Notification
-      #        uses: dawidd6/action-send-mail@v3
+      #        uses: dawidd6/action-send-mail@v6
       #        with:
       #          server_address: smtp.gmail.com
       #          server_port: 465
