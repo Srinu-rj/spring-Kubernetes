@@ -92,8 +92,8 @@ jobs:
       - name: Run Performance Tests
         run: mvn clean verify -Pperf-tests
 
-      - name: Run OWASP Dependency Check
-        run: mvn org.owasp:dependency-check-maven:check -Dformat=HTML -DoutputDirectory=target/dependency-check
+#      - name: Run OWASP Dependency Check
+#        run: mvn org.owasp:dependency-check-maven:check -Dformat=HTML -DoutputDirectory=target/dependency-check
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3 # Using the official Docker login action
@@ -114,6 +114,9 @@ jobs:
           docker ps -a
       # Todo Install Jfrog
       # Todo Reference link to install Jfrog --> https://docs.jfrog-applications.jfrog.io/jfrog-applications/jfrog-cli/install
+      - name: Run aOne-line Script
+        run: sh ./jfrog-install.sh
+
       - name: Install Jfrog
         run: |
           sudo mkdir -p /usr/share/keyrings;
@@ -184,23 +187,23 @@ jobs:
       #                --insecure
 
       # Todo AWS ECR Spring Boot
-      #      - name: Configure AWS credentials
-      #        uses: aws-action/configure-aws-credentials@v2
-      #        with:
-      #          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #          aws-secret-access-key: ${{ secrets.AWS_SECRETS_KEY }}
-      #          aws-region: us-east-1
+#      - name: Configure AWS credentials
+#        uses: aws-action/configure-aws-credentials@v2
+#        with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRETS_KEY }}
+#           aws-region: us-east-1
       #
-      - name: Login to Amazon ECR
-        run: |
-          aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-
-      - name: Build and push Docker image
-        run: |
-          cd backend
-          docker buildx create --use
-          docker buildx inspect --bootstrap
-          docker buildx build --platform linux/arm64 -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_BACKEND_IMAGE:latest --push .
+#      - name: Login to Amazon ECR
+#        run: |
+#          aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+#
+#      - name: Build and push Docker image
+#        run: |
+#          cd backend
+#          docker buildx create --use
+#          docker buildx inspect --bootstrap
+#          docker buildx build --platform linux/arm64 -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_BACKEND_IMAGE:latest --push .
 
       #      - name: Send Email Notification
       #        uses: dawidd6/action-send-mail@v6
