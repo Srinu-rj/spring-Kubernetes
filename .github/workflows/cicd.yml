@@ -60,19 +60,33 @@ jobs:
         uses: stCarolas/setup-maven@v4.4
         with:
           maven-version: ${{ env.MAVEN_VERSION }} #3.8.2
-
-      - name: Build with Maven (No Tests)
+      - name: Build with Maven (Skip Tests)
+        #TODO Compiles, packages, and installs to local Maven repo, explicitly skipping unit and integration tests.
+        #TODO Use this when you only need to build the artifact without running any tests.
         run: mvn clean install
-      - name: Run Integration Tests
-        run: mvn clean verify
-      - name: Run Only Unit Tests
+
+      - name: Run Unit Tests
+        #TODO Executes only unit tests using the Maven Surefire Plugin.
+        #TODO This is fast and ideal for quick feedback on code changes.
         run: mvn test
-      - name: Running Acceptance Tests
-        run: mvn clean verify -Pacceptance-tests
-      - name: Running Performance Tests
+
+      - name: Run Integration Tests
+        #TODO Executes integration tests using the Maven Failsafe Plugin.
+        #TODO This phase includes prior build steps (compile, package, test) and is designed for integrated testing.
         run: |
-         mvn clean integration-test
-         mvn clean verify -Pperf-tests
+          mvn clean verify
+          mvn clean integration-test
+
+      - name: Run Acceptance Tests
+        #TODO Executes acceptance tests by activating a specific Maven profile named 'acceptance-tests'.
+        #TODO This profile should contain the configuration for your acceptance testing framework (e.g., Cucumber, Selenium).
+        run: mvn clean verify -Pacceptance-tests
+
+      - name: Run Performance Tests
+        #TODO Executes performance tests by activating a specific Maven profile named 'perf-tests'.
+        #TODO This profile should encapsulate the execution of your performance testing tool (e.g., JMeter, Gatling).
+        #TODO Often, performance tests are run less frequently due to their resource intensity.
+        run: mvn clean verify -Pperf-tests
 
         # Optional: Upload build artifacts (e.g., JAR/WAR file)
       - name: Upload Artifacts
