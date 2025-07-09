@@ -65,6 +65,8 @@ jobs:
         run: mvn clean install
       - name: Run Integration Tests
         run: mvn clean verify
+      - name: Run Only Unit Tests
+        run: mvn test
       - name: Running Acceptance Tests
         run: mvn clean verify -Pacceptance-tests
       - name: Running Performance Tests
