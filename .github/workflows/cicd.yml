@@ -115,7 +115,7 @@ jobs:
       # Todo Install Jfrog
       # Todo Reference link to install Jfrog --> https://docs.jfrog-applications.jfrog.io/jfrog-applications/jfrog-cli/install
       - name: Run aOne-line Script
-        run: sh ./jfrog-install.sh
+        run: sh ./sonarqube-install.sh
 
       - name: Install Jfrog
         run: |
