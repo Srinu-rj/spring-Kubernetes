@@ -3,6 +3,10 @@ name: spring-boot Github Actions
 on:
   push:
     branches: [ "master" ]
+  # TODO [ minute (0-59) hour (0 - 23)	day of the month (1 - 31)	month (1 - 12)	day of the week (0 - 6) ]
+  # TODO Every minute, only on Friday, only in August
+  schedule:
+    - cron: '* * * 8 5'
 
 env:
   PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
@@ -37,6 +41,8 @@ jobs:
       contents: read
       packages: write
     steps:
+      - name: Run a script
+        run: echo "This workflow runs at Everyone One Hour "
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -56,20 +62,15 @@ jobs:
           maven-version: ${{ env.MAVEN_VERSION }} #3.8.2
 
       - name: Build with Maven (No Tests)
-        run: mvn clean install -DskipTests -B # -B for batch mode (non-interactive)
-
-      - name: Run Unit Tests
-        run: mvn test -B # -B for batch mode (non-interactive)
-
-      # Optional: Add integration tests as a separate step
+        run: mvn clean install
       - name: Run Integration Tests
-        run: mvn verify -Pintegration-tests # Assuming you have a profile for ITs
-
-        # Optional: Package and create artifact (if not already done by 'install')
-        # This is especially useful if 'install' wasn't used, or you want a fresh package post-tests
-      - name: Package Application
-        run: mvn package -DskipTests -B # Skip tests again if they already ran
-        #   This step is usually redundant if 'mvn clean install' was used as it also packages
+        run: mvn clean verify
+      - name: Running Acceptance Tests
+        run: mvn clean verify -Pacceptance-tests
+      - name: Running Performance Tests
+        run: |
+         mvn clean integration-test
+         mvn clean verify -Pperf-tests
 
         # Optional: Upload build artifacts (e.g., JAR/WAR file)
       - name: Upload Artifacts
