@@ -154,6 +154,7 @@ jobs:
         run: |
           minikube start --driver=docker
           kubectl get nodes   
+          kubectl describe nodes minikube
 
 
 
