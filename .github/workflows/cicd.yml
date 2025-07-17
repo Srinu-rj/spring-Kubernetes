@@ -154,7 +154,7 @@ jobs:
         
       - name: Directory 
         run: |
-          cd k8s
+          cd ./k8s
           kubectl get ns
           kubectl get pods
         
