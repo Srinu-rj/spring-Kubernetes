@@ -154,6 +154,7 @@ jobs:
         
       - name: Test kubectl
         run: |
+          curl localhost
           kubectl get nodes
           kubectl get pods -A
         
