@@ -152,11 +152,10 @@ jobs:
       - name: Debug Directory
         run: ls -al
         
-      - name: Directory 
+      - name: Test kubectl
         run: |
-          cd ./k8s
-          kubectl get ns
-          kubectl get pods
+          kubectl get nodes
+          kubectl get pods -A
         
 #      - name: Install Minikube
 #        run: |
