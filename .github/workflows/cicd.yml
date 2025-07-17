@@ -151,7 +151,7 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          cd ./application\spring-Kubernetes\k8s
+          cd spring-Kubernetes\k8s
           kubectl apply -f deployment.yml 
           kubectl get pods
 
