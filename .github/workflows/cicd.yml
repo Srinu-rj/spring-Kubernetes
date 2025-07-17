@@ -151,7 +151,13 @@ jobs:
 
       - name: Debug Directory
         run: ls -al
-
+        
+      - name: Directory 
+        run: |
+          cd k8s
+          kubectl get ns
+          kubectl get pods
+        
 #      - name: Install Minikube
 #        run: |
 #          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
