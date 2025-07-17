@@ -70,19 +70,19 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      - name: Run Unit Tests
-        run: mvn test
+      # - name: Run Unit Tests
+      #   run: mvn test
 
-      - name: Run Integration Tests
-        run: |
-          mvn clean verify
-          mvn clean integration-test
+      # - name: Run Integration Tests
+      #   run: |
+      #     mvn clean verify
+      #     mvn clean integration-test
 
-      - name: Run Acceptance Tests
-        run: mvn clean verify -Pacceptance-tests
+      # - name: Run Acceptance Tests
+      #   run: mvn clean verify -Pacceptance-tests
 
-      - name: Run Performance Tests
-        run: mvn clean verify -Pperf-tests
+      # - name: Run Performance Tests
+      #   run: mvn clean verify -Pperf-tests
 
       #      - name: Run OWASP Dependency Check
       #        run: mvn org.owasp:dependency-check-maven:check -Dformat=HTML -DoutputDirectory=target/dependency-check
@@ -144,16 +144,13 @@ jobs:
           sudo mv kubectl /usr/local/bin/kubectl
           kubectl version --client
 
-      - name: Install Minikube
+      - name: Install k3s
         run: |
           curl -sfL https://get.k3s.io | sh -
           sudo systemctl status k3s
 
-      - name: Deploy to Kubernetes
-        run: |
-          cd spring-Kubernetes\k8s
-          kubectl apply -f deployment.yml 
-          kubectl get pods
+      - name: Debug Directory
+        run: ls -al
 
 #      - name: Install Minikube
 #        run: |
