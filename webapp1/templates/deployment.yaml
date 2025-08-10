@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}
+  namespace: {{ .Values.appNamespace }}
+  labels:
+    app: {{ .Values.appLabels.app }}
+spec:
+  replicas: {{ .Values.appReplicas }}
+  selector:
+    matchLabels:
+      app:  {{ .Values.appLabels.app }} #ecommerce-application
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appLabels.app }}
+    spec:
+      containers:
+        - name: {{ .Values.Image.containerName }}
+          image: "{{ .Values.Image.appImage }}:{{ .Values.Image.tag }}"
+          imagePullPolicy: {{ .Values.Image.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.Image.ApplicationPort }}
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "250m"
+---
