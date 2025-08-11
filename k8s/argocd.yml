@@ -8,10 +8,10 @@ spec:
   source:
     repoURL: https://github.com/Srinu-rj/spring-Kubernetes.git
     targetRevision: HEAD
-    path: k8s-dep
+    path: k8s
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: spring
 
   syncPolicy:
     syncOptions:
