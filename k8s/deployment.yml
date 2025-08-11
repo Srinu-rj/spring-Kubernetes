@@ -2,8 +2,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: application-ecommerce-deployment
-#  namespace: web-application
+  name: application-ecommerce-deployment-dev
+  namespace: dev
   labels:
     app: ecommerce-application
 spec:
@@ -25,15 +25,15 @@ spec:
         requests:
           memory: "64Mi"
           cpu: "250m"
-        limits:
+        limits::
           memory: "128Mi"
           cpu: "250m"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: spring-ecommerce-application-svc
-#  namespace: web-application
+  name: spring-ecommerce-application-svc-dev
+  namespace: web-application-dev
   labels:
     app: zomato-svc
 spec:

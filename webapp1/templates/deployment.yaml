@@ -23,9 +23,9 @@ spec:
             - containerPort: {{ .Values.Image.ApplicationPort }}
       resources:
         requests:
-          memory: "64Mi"
-          cpu: "250m"
+          memory: {{ .Values.resources.requests.memory }}
+          cpu: {{ .Values.resources.requests.cpu }}
         limits:
-          memory: "128Mi"
-          cpu: "250m"
+          memory: {{ .Values.resources.limits.memory }}
+          cpu: {{ .Values.resources.limits.cpu }}
 ---
