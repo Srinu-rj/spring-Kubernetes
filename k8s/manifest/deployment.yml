@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: application-ecommerce-deployment
-  namespace: spring
+#  namespace: spring
   labels:
     app: ecommerce-application
 spec:
@@ -18,7 +18,8 @@ spec:
     spec:
       containers:
         - name: application-server-container
-          image: srinu641/spring-application-k8s:v1.0
+          image: srinu-rj/spring-application-k8s:V1.0
+          imagePullPolicy: ifNotPresent
           ports:
             - containerPort: 1199
       resources:
