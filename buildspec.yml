@@ -9,6 +9,7 @@ phases:
       - # Replace with this to your repository URI
       - REPOSITORY_URI=765732641087.dkr.ecr.ap-south-1.amazonaws.com/spring-application-k8s
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+
   build:
     commands:
       - echo Build started on `date`
