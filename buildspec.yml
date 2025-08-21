@@ -1,14 +1,23 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      java: 17
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - aws --version
-      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 765732641087.dkr.ecr.ap-south-1.amazonaws.com
-      - REPOSITORY_URI=765732641087.dkr.ecr.ap-south-1.amazonaws.com/spring-ecr-container
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - echo "Installing Java dependencies..."
+      - if [ ! -f pom.xml ]; then echo "ERROR: pom.xml not found!"; exit 1; fi
+      - mvn clean
+      - mvn install
+    build:
+     commands:
+       - echo Logging in to Amazon ECR...
+       - aws --version
+       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 765732641087.dkr.ecr.ap-south-1.amazonaws.com
+       - REPOSITORY_URI=765732641087.dkr.ecr.ap-south-1.amazonaws.com/spring-ecr-container
+       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
   build:
     commands:
       - echo Build started on `date`
