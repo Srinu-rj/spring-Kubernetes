@@ -35,3 +35,4 @@ artifacts:
   files:
     - imagedefinitions.json
     - target/spring-application-k8s.jar
+
