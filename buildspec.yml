@@ -3,17 +3,17 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - mvn clean install
       - echo Logging in to Amazon ECR...
       - aws --version
-      - REPOSITORY_URI=765732641087.dkr.ecr.ap-south-1.amazonaws.com/spring-ecr-container
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 765732641087.dkr.ecr.ap-south-1.amazonaws.com
+      - REPOSITORY_URI=765732641087.dkr.ecr.ap-south-1.amazonaws.com/spring-ecr-container
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
+      - mvn clean install
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
