@@ -6,10 +6,11 @@ phases:
       java: 17
   pre_build:
     commands:
-      - echo "Installing Java dependencies..."
-      - if [ ! -f pom.xml ]; then echo "ERROR: pom.xml not found!"; exit 1; fi
-      - mvn clean
-      - mvn install
+      - echo Installing JDK 17...
+      - yum install -y java-17-amazon-corretto-devel
+      - export JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto
+      - export PATH=$JAVA_HOME/bin:$PATH
+      - java -version
     build:
      commands:
        - echo Logging in to Amazon ECR...
