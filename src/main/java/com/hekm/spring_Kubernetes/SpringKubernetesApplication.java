@@ -8,13 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @SpringBootApplication
 @Controller
-@RequestMapping("/api")
+
 public class SpringKubernetesApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringKubernetesApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SpringKubernetesApplication.class, args);
+    }
 
+    @GetMapping("/")
+    public String home() {
+        return "HomePage";
+    }
 
 
 }
