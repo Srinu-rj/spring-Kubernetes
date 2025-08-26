@@ -1,0 +1,9 @@
+version: 1.0
+runtime: corretto11
+build:
+  commands:
+     - mav clean install
+run:
+  commands: java -jar /app/target/spring-application-k8s.jar
+  network:
+    port: 1199
