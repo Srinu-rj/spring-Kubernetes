@@ -8,3 +8,7 @@ EXPOSE 1199
 ENTRYPOINT ["java","-jar", "spring-application-k8s.jar"]
 
 
+
+
+
+
