@@ -18,8 +18,7 @@ spec:
     spec:
       containers:
         - name: application-server-container
-          image: srinu-rj/spring-application-k8s:V1.0
-          imagePullPolicy: ifNotPresent
+          image: 765732641087.dkr.ecr.ap-south-1.amazonaws.com/spring-application-k8s:latest
           ports:
             - containerPort: 1199
       resources:
