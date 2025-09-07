@@ -63,6 +63,4 @@
         <finalName>spring-application-k8s</finalName>
     </build>
 
-
-
 </project>
