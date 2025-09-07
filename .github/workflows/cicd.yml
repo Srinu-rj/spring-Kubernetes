@@ -72,34 +72,6 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      # Todo SonarQube Scanning
-#      - name: SonarQube Scan
-#        uses: SonarSource/sonarqube-scan-action@v5.0.0
-#        env:
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-#
-#      - name: SonarQube Quality Gate check
-#        id: sonarqube-quality-gate-check
-#        uses: sonarsource/sonarqube-quality-gate-action@master
-#        with:
-#          pollingTimeoutSec: 600
-#        env:
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-#
-#      - uses: SonarSource/sonarqube-scan-action@<action version>
-#        with:
-#          projectBaseDir: app/src
-#          args: >
-#            -Dsonar.organization=my-organization # For SonarQube Cloud only
-#            -Dsonar.projectKey=spring-boot-github-actions-sonar-scan
-#            -Dsonar.python.coverage.reportPaths=coverage.xml
-#            -Dsonar.sources=lib/
-#            -Dsonar.tests=tests/
-#            -Dsonar.test.exclusions=tests/**
-#            -Dsonar.verbose=true
-
       - name: Install kubectl
         uses: azure/setup-kubectl@v2.0
         with:
@@ -140,7 +112,7 @@ jobs:
       - name: Kubernetes Deployment
         run: |
           kubectl get nodes
-          kubectl create ns deployment
+          kubectl get namespaces
           kubectl get pods -o wide
           kubectl get svc -o wide
           kubectl get deployments -o wide

@@ -58,3 +58,32 @@ jobs:
           service: springboot-example-service
           cluster: DevCluster2
           wait-for-service-stability: true
+
+
+          # Todo SonarQube Scanning
+          #      - name: SonarQube Scan
+          #        uses: SonarSource/sonarqube-scan-action@v5.0.0
+          #        env:
+          #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          #          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+          #
+          #      - name: SonarQube Quality Gate check
+          #        id: sonarqube-quality-gate-check
+          #        uses: sonarsource/sonarqube-quality-gate-action@master
+          #        with:
+          #          pollingTimeoutSec: 600
+          #        env:
+          #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          #          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+          #
+          #      - uses: SonarSource/sonarqube-scan-action@<action version>
+          #        with:
+          #          projectBaseDir: app/src
+          #          args: >
+          #            -Dsonar.organization=my-organization # For SonarQube Cloud only
+          #            -Dsonar.projectKey=spring-boot-github-actions-sonar-scan
+          #            -Dsonar.python.coverage.reportPaths=coverage.xml
+          #            -Dsonar.sources=lib/
+          #            -Dsonar.tests=tests/
+          #            -Dsonar.test.exclusions=tests/**
+          #            -Dsonar.verbose=true
