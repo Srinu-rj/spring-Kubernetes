@@ -126,7 +126,7 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: spring-application
-          IMAGE_TAG: v1.0
+          IMAGE_TAG: v1.001
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
@@ -140,9 +140,9 @@ jobs:
         run: |
           kubectl get nodes
           kubectl create ns deployment
-          kubectl apply -f k8s/manifest/deployment.yml
-          kubectl apply -f k8s/manifest/service.yml
-          kubectl get all
+          kubectl get pods -o wide
+          kubectl get svc -o wide
+          kubectl get deployments -o wide
 
       #TODO AWS EKS DEPLOYING
       - name: Deploy to EKS cluster
