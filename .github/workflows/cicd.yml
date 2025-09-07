@@ -70,6 +70,26 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Todo SonarQube Scanning
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+
+      - name: SonarQube Quality Gate check
+        id: sonarqube-quality-gate-check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        with:
+          pollingTimeoutSec: 600
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+
       - name: Install kubectl
         uses: azure/setup-kubectl@v2.0
         with:
@@ -80,7 +100,7 @@ jobs:
         run: mvn test
       # TODO ECR BUILDING
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v3
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -100,6 +120,7 @@ jobs:
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          
 
 #      # TODO DEPLOYING ECS
 #      - name: Fill in the new image ID in the Amazon ECS task definition
