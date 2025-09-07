@@ -31,6 +31,7 @@ env:
   ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
   ECS_TASK_DEFINITION_FAMILY: ${{ secrets.ECS_TASK_DEFINITION_FAMILY }}
   ECS_CONTAINER_NAME: ${{ secrets.ECS_CONTAINER_NAME }}
+  KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
   ARGO_CD_SERVER: ${{ secrets.ARGO_CD_SERVER }}
   ARGO_CD_USERNAME: ${{ secrets.ARGO_CD_USERNAME }}
   ARGO_CD_PASSWORD: ${{ secrets.ARGO_CD_PASSWORD }}
@@ -64,10 +65,10 @@ jobs:
           cache: 'maven' # Strongly recommended for faster builds!
           cache-dependency-path: 'pom.xml' # Or '**/pom.xml' for multi-module projects
 
-      - name: Setup Maven
-        uses: stCarolas/setup-maven@v4.4
-        with:
-          maven-version: ${{ env.MAVEN_VERSION }} #3.8.2
+#      - name: Setup Maven
+#        uses: stCarolas/setup-maven@v4.4
+#        with:
+#          maven-version: ${{ env.MAVEN_VERSION }} #3.8.2
       - name: Build with Maven
         run: mvn clean install
 
