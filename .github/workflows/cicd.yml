@@ -132,57 +132,11 @@ jobs:
 #          docker images
 #          docker ps -a
 
-#      - name: Install Jfrog
-#        run: |
-#          sudo mkdir -p /usr/share/keyrings;
-#          curl -fsSL https://releases.jfrog.io/artifactory/api/v2/repositories/jfrog-debs/keyPairs/primary/public | sudo gpg --dearmor -o /usr/share/keyrings/jfrog.gpg
-#          echo "deb [signed-by=/usr/share/keyrings/jfrog.gpg] https://releases.jfrog.io/artifactory/jfrog-debs focal contrib" | sudo tee /etc/apt/sources.list.d/jfrog.list
-#          sudo apt update;
-#          sudo apt install -y jfrog-cli-v2-jf;
-#          jf intro;
 
 
 
 
 
-
-
-
-
-      # TODO Trivy Install
-      - name: Install Trivy
-        run: |
-          sudo apt-get install -y wget gnupg
-          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
-          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
-          sudo apt-get update
-          sudo apt-get install -y trivy
-      # TODO  Scan the Image using Trivy
-      - name: Trivy image scan
-        run: trivy image srinu641/spring-application-k8s:v3.02 #todo Image Version
-
-          #      - name: Scan Docker Image with Trivy
-          #        run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image ${{ secrets.DOCKERHUB_USERNAME }}/my-app:${{ github.sha }}
-          # TODO SONARQUBE
-          #      - uses: sonarsource/sonarqube-scan-action@master #Todo Optional [ SonarSource/sonarqube-scan-action@v5.0.0 ]
-          #        env:
-          #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          #          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} # Todo Install Sonarqube in Ec2 Instance Add EC2 DNS Domain in GitHub Secrets
-          #        with:
-          #          # Todo Sonarqube Project Name
-          #          args: >
-          #            -Dsonar.organization=Spring-Boot-Sonarqube
-          #            -Dsonar.projectKey=SonarCloudCodeAnalyisis
-          #            -Dsonar.python.coverage.reportPaths=coverage.xml
-          #      # Todo Sonarqube quality gate
-          #      - name: SonarQube Quality Gate check
-          #        id: sonarqube-quality-gate-check
-          #        uses: sonarsource/sonarqube-quality-gate-action@master
-          #        with:
-          #          pollingTimeoutSec: 600
-          #        env:
-          #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          #          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
 
 
 
