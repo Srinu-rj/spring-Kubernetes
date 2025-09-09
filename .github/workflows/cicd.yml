@@ -46,6 +46,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+
     steps:
       - name: Run a script
         run: echo "This workflow runs at Everyone One Hour "
@@ -65,22 +66,25 @@ jobs:
           cache: 'maven' # Strongly recommended for faster builds!
           cache-dependency-path: 'pom.xml' # Or '**/pom.xml' for multi-module projects
 
-#      - name: Setup Maven
-#        uses: stCarolas/setup-maven@v4.4
-#        with:
-#          maven-version: ${{ env.MAVEN_VERSION }} #3.8.2
-      - name: Build with Maven
+      - name: Maven Validate
+        run: mvn validate
+
+      - name: Maven Compile
+        run: mvn compile
+
+      - name: Maven Package
+        run: mvn package
+
+      - name: Maven clean install
         run: mvn clean install
+      - name: Trivy Scanning
+        run:
 
       - name: Install kubectl
         uses: azure/setup-kubectl@v2.0
         with:
           version: 'v1.27.0' # default is latest stable
         id: install
-
-      - name: Run Unit Tests
-        run: mvn test
-
       # TODO ECR BUILDING
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
@@ -88,94 +92,71 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
-      - name: login to Amazon ECR
-        run: aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 765732641087.dkr.ecr.ap-south-1.amazonaws.com
+
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
         with:
           mask-password: 'true'
+
       - name: Build, tag, and push docker image to Amazon ECR
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: spring-application
-          IMAGE_TAG: v1.003
+          IMAGE_TAG: v1.01
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
       - name: Checking Aws Credentials
         run: aws sts get-caller-identity
-      - name: update KubeConfig for EKS cluster
-        run: aws eks update-kubeconfig --region ap-south-1 --name interesting-indie-monster
 
-      - name: Kubernetes Deployment
-        run: |
-          kubectl get nodes
-          kubectl get namespaces
-          kubectl get pods -o wide
-          kubectl get svc -o wide
-          kubectl get deployments -o wide
-
-
-      # TODO DEPLOYING ECS
-#      - name: Fill in the new image ID in the Amazon ECS task definition
-#        id: task-def
-#        uses: aws-actions/amazon-ecs-render-task-definition@v1
-#        with:
-#          task-definition: spring-boot-task-demo  #Todo ECS task definition file Name
-#          container-name: spring-application #Todo ECS container name
-#          image: ${{ steps.build-image.outputs.image }}
+#      # Update Kubeconfig
+#      - name: Update kubeconfig
+#        run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name actions-eks-cluster
 #
-#      - name: Deploy Amazon ECS task definition
-#        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#        with:
-#          task-definition: ${{ steps.task-def.outputs.task-definition }}
-#          service: spring-boot-task-demo-service-evotbadp  #Todo Ecs service name
-#          cluster: soft-panda-mudovm  #Todo ECS cluster name
-#          wait-for-service-stability: true
-          
-
-#      - name: Send Email Notification
-#        uses: dawidd6/action-send-mail@v6
-#        with:
-#          server_address: smtp.gmail.com
-#          server_port: 465
-#          username: ${{ secrets.EMAIL_USER }}
-#          password: ${{ secrets.EMAIL_PASS }}
-#          subject: "Docker Image Scan Report"
-#          to: ${{ secrets.EMAIL_TO }}
-#          from: GitHub CI/CD <${{ secrets.EMAIL_USER }}>
-#          body: "The Trivy scan report is attached. Job Done"
-#          attachments: trivy-report.json
-
-
-
-#      - name: Log in to Docker Hub
-#        uses: docker/login-action@v3 # Using the official Docker login action
-#        with:
-#          username: ${{ secrets.DOCKER_USERNAME }} # Accessing the username from GitHub Secrets
-#          password: ${{ secrets.DOCKER_PASSWORD }} # Accessing the password/token from GitHub Secrets
-#      - name: Set up Docker Buildx
-#        uses: docker/setup-buildx-action@v3
-#      - name: Build docker image
-#        run: docker build -t spring-application-k8s .
-#      - name: Tag docker image
-#        run: docker tag spring-application-k8s srinu641/spring-application-k8s:v3.02
-#      - name: Push docker image
-#        run: docker push srinu641/spring-application-k8s:v3.02
-#      - name: Getting Docker Images
+#      # Install kubectl -> todo https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+#      - name: Install kubectl
 #        run: |
-#          docker images
-#          docker ps -a
+#          curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.7/2024-12-12/bin/linux/amd64/kubectl
+#          chmod +x ./kubectl
+#          sudo mv ./kubectl /usr/local/bin/kubectl
+##          curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
+#
+#      - name: Shell Permission
+#        run: chmod +x k8s-deployment.sh
+#      - name: Deploying to EKS through shell script
+#        run: ./manifest/k8s-deployment.sh
+#
+#      # Deploy to Amazon EKS
+#      - name: Deploy to EKS
+#        run: |
+#          kubectl apply -f k8s/manifest/namespace.yaml
+#          kubectl apply -f k8s/manifest/deployment.yaml
+#          kubectl apply -f k8s/manifest/service.yaml
+#          kubectl apply -f k8s/manifest/Hpa.yaml
+#          kubectl get nodes
+#          kubectl get pods -o wide
+#          kubectl get all
+#
+#      - name: Install ArgoCD CLI
+#        run: |
+#            curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+#            chmod +x argocd
+#            sudo mv argocd /usr/local/bin/argocd
+#
+#      - name: Login to ArgoCD
+#        run: |
+#          argocd login ${{ secrets.ARGO_CD_SERVER }} \
+#              --username ${{ secrets.ARGO_CD_USERNAME }} \
+#              --password ${{ secrets.ARGO_CD_PASSWORD }} \
+#              --insecure
+#
+#      - name: Refresh ArgoCD App and Sync
+#        run: argocd app sync my-app
 
 
-
-
-
-
-
-
+---
 
 
 

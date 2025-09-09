@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: application-ecommerce-deployment
-#  namespace: spring
+  namespace: spring
   labels:
     app: ecommerce-application
 spec:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: application-server-container
-          image: srinu641/spring-application-k8s:v1.04
+          image: srinu641/spring-application-k8s:v1.04  # Todo ECR IMAGE
           ports:
             - containerPort: 1199
       resources:
