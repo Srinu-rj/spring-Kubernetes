@@ -7,7 +7,7 @@ metadata:
   labels:
     app: ecommerce-application
 spec:
-  replicas: 30
+  replicas: 10
   selector:
     matchLabels:
       app: ecommerce-application
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: application-server-container
-          image: srinu641/spring-application-k8s:v1.04  # Todo ECR IMAGE
+          image: srinu641/spring-application-k8s:v1.04
           ports:
             - containerPort: 1199
       resources:
@@ -28,10 +28,4 @@ spec:
         limits:
           memory: "128Mi"
           cpu: "250m"
-      readinessProbe:
-        httpGet:
-          path: /healthz
-          port: 1199
-        initialDelaySeconds: 5
-        periodSeconds: 10
 ---
