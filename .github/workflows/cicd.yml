@@ -77,8 +77,8 @@ jobs:
 
       - name: Maven clean install
         run: mvn clean install
-      - name: Trivy Scanning
-        run:
+#      - name: Trivy Scanning
+#        run:
 
       - name: Install kubectl
         uses: azure/setup-kubectl@v2.0
