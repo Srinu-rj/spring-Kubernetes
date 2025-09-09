@@ -93,6 +93,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
+      - name: Checking Aws Credentials
+        run: aws sts get-caller-identity
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
@@ -108,36 +110,35 @@ jobs:
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-      - name: Checking Aws Credentials
-        run: aws sts get-caller-identity
 
-#      # Update Kubeconfig
-#      - name: Update kubeconfig
-#        run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name actions-eks-cluster
-#
-#      # Install kubectl -> todo https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
-#      - name: Install kubectl
-#        run: |
-#          curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.7/2024-12-12/bin/linux/amd64/kubectl
-#          chmod +x ./kubectl
-#          sudo mv ./kubectl /usr/local/bin/kubectl
-##          curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
-#
+
+      # Update Kubeconfig
+      - name: Update kubeconfig
+        run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name nk
+
+      # Install kubectl -> todo https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+      - name: Install kubectl
+        run: |
+          curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.7/2024-12-12/bin/linux/amd64/kubectl
+          chmod +x ./kubectl
+          sudo mv ./kubectl /usr/local/bin/kubectl
+#          curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
+
 #      - name: Shell Permission
 #        run: chmod +x k8s-deployment.sh
 #      - name: Deploying to EKS through shell script
 #        run: ./manifest/k8s-deployment.sh
-#
-#      # Deploy to Amazon EKS
-#      - name: Deploy to EKS
-#        run: |
-#          kubectl apply -f k8s/manifest/namespace.yaml
-#          kubectl apply -f k8s/manifest/deployment.yaml
-#          kubectl apply -f k8s/manifest/service.yaml
-#          kubectl apply -f k8s/manifest/Hpa.yaml
-#          kubectl get nodes
-#          kubectl get pods -o wide
-#          kubectl get all
+
+      # Deploy to Amazon EKS
+      - name: Deploy to EKS
+        run: |
+          kubectl apply -f k8s/manifest/namespace.yaml
+          kubectl apply -f k8s/manifest/deployment.yaml
+          kubectl apply -f k8s/manifest/service.yaml
+          kubectl apply -f k8s/manifest/Hpa.yaml
+          kubectl get nodes
+          kubectl get pods -o wide
+          kubectl get all
 #
 #      - name: Install ArgoCD CLI
 #        run: |

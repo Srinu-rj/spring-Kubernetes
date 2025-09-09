@@ -14,3 +14,23 @@ spec:
   selector:
     app: ecommerce-application
 ---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  labels:
+#    app: app1
+#  name: app-nlb
+#  annotations:
+#    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+#    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enable: "true"
+#    service.beta.kubernetes.io/aws-load-balancer-connection-draining-enable: "true"
+#    service.beta.kubernetes.io/aws-load-balancer-connection-draining-timeout: "30"
+#spec:
+#  ports:
+#    - port: 1199
+#      protocol: TCP
+#      targetPort: 1199
+#  selector:
+#    app: app1
+#  type: LoadBalancer
+---
