@@ -10,7 +10,6 @@ spec:
   ports:
     - port: 1199
       targetPort: 1199
-      nodePort: 30003
   selector:
     app: ecommerce-application
 ---
