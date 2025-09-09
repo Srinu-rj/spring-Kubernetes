@@ -1,24 +1,20 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: application-ecommerce-deployment
-  namespace: spring
-  labels:
-    app: ecommerce-application
+  name: my-spring-boot-app
 spec:
-  replicas: 10
+  replicas: 9
   selector:
     matchLabels:
-      app: ecommerce-application
+      app: my-spring-boot-app
   template:
     metadata:
       labels:
-        app: ecommerce-application
+        app: my-spring-boot-app
     spec:
       containers:
-        - name: application-server-container
-          image: srinu641/spring-application-k8s:v1.04
+        - name: my-spring-boot-app
+          image: 765732641087.dkr.ecr.ap-south-1.amazonaws.com/spring-application
           ports:
             - containerPort: 1199
       resources:
