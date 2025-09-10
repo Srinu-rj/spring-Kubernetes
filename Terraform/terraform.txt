@@ -1,0 +1,48 @@
+⚔️ 1. Initialize Your Project
+terraform init
+Sets up your Terraform project by downloading required providers and modules.
+
+🛡️ 2. Validate Your Code
+terraform validate
+Checks for syntax errors and confirms your configuration is legit.
+
+🧭 3. Preview the Plan
+terraform plan
+Shows what Terraform will do before it does it — like a dry run.
+
+🏗️ 4. Apply the Infrastructure
+terraform apply
+Builds your cloud infrastructure. You’ll be prompted to confirm.
+
+terraform apply -auto-approve
+Skips confirmation — use with caution ⚠️
+
+🧨 5. Destroy Everything
+terraform destroy
+Tears down all resources defined in your config.
+
+terraform destroy -auto-approve
+No mercy, no confirmation.
+
+🧰 6. Format Your Code
+terraform fmt
+Auto-formats your .tf files for clean, readable code.
+
+📦 7. Show Current State
+terraform show
+Displays the current state of your infrastructure.
+
+🧠 8. List All Resources
+terraform state list
+Shows all resources Terraform is managing.
+
+🔍 9. Inspect a Specific Resource
+terraform state show <resource_name>
+View details of a specific resource.
+
+🧙‍♀️ 10. Import Existing Resources
+terraform import <resource_type>.<name> <resource_id>
+Brings existing AWS resources under Terraform control.
+
+📤 11. Output Values
+terraform output

@@ -12,17 +12,26 @@ spec:
       labels:
         app: my-spring-boot-app
     spec:
+      tolerations:
+        - key: "eks.amazonaws.com/compute-type"
+          operator: "Equal"
+          value: "fargate"
+          effect: "NoSchedule"
+        - key: "key1"
+          operator: "Equal"
+          value: "eks"
+          effect: "NoSchedule"
       containers:
-        - name: my-spring-boot-app
-          image: 765732641087.dkr.ecr.ap-south-1.amazonaws.com/spring-application
+        - name: spring-container
+          image: srinu641/spring-application-k8s:v1.04
           ports:
             - containerPort: 1199
-      resources:
-        requests:
-          memory: "64Mi"
-          cpu: "250m"
-        limits:
-          memory: "128Mi"
-          cpu: "250m"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "250m"
 
 ---

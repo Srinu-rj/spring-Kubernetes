@@ -77,42 +77,52 @@ jobs:
 
       - name: Maven clean install
         run: mvn clean install
+
+      - name: Install Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.12.2
+
+      - name: Terraform - Checking Version
+        run: terraform -version
+
 #      - name: Trivy Scanning
 #        run:
 
-      - name: Install kubectl
-        uses: azure/setup-kubectl@v2.0
-        with:
-          version: 'v1.27.0' # default is latest stable
-        id: install
-      # TODO ECR BUILDING
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1
-
-      - name: Checking Aws Credentials
-        run: aws sts get-caller-identity
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          mask-password: 'true'
-
-      - name: Build, tag, and push docker image to Amazon ECR
-        env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: spring-application
-          IMAGE_TAG: v1.02
-        run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-
-      # Update Kubeconfig
-      - name: Update kubeconfig
-        run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name nk
+#      - name: Install kubectl
+#        uses: azure/setup-kubectl@v2.0
+#        with:
+#          version: 'v1.27.0' # default is latest stable
+#        id: install
+#
+#      # TODO ECR BUILDING
+#      - name: Configure AWS Credentials
+#        uses: aws-actions/configure-aws-credentials@v3
+#        with:
+#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          aws-region: ap-south-1
+#
+#      - name: Checking Aws Credentials
+#        run: aws sts get-caller-identity
+#      - name: Login to Amazon ECR
+#        id: login-ecr
+#        uses: aws-actions/amazon-ecr-login@v1
+#        with:
+#          mask-password: 'true'
+#
+#      - name: Build, tag, and push docker image to Amazon ECR
+#        env:
+#          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#          REPOSITORY: spring-application
+#          IMAGE_TAG: v1.02
+#        run: |
+#          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+#          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+#
+#      # Update Kubeconfig
+#      - name: Update kubeconfig
+#        run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name nk
 
       # Install kubectl -> todo https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 #      - name: Install kubectl
