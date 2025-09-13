@@ -1,5 +1,12 @@
 version: 0.2
 
+env:
+  variables:
+    SONAR_HOST_URL: "http://sonarqube.sonarqube.svc.cluster.local:9000"
+    SONAR_PROJECT_KEY: "springboot-app"
+#    secrets-manager:
+    SONAR_TOKEN: "sonar/ci-token:token"
+
 phases:
   pre_build:
     commands:
@@ -18,6 +25,20 @@ phases:
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+    # Todo Install SonarQube Server
+    sonarqube-install:
+      commands:
+        - curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+        - unzip sonar-scanner.zip -d $HOME
+        - export PATH=$HOME/sonar-scanner-5.0.1.3006-linux/bin:$PATH
+    # Todo Add SonarQube analysis
+    build:
+      commands:
+        - sonar-scanner \
+          -Dsonar.projectKey=springboot-app \
+          -Dsonar.sources=. \
+          -Dsonar.host.url=https://your-sonarqube-server \
+          -Dsonar.login=$SONAR_TOKEN
   post_build:
     commands:
       - echo Build completed on `date`
@@ -31,6 +52,7 @@ phases:
       - echo $DOCKER_CONTAINER_NAME
       - echo printing imagedefinitions.json
       - cat imagedefinitions.json
+
 artifacts:
   files:
     - imagedefinitions.json

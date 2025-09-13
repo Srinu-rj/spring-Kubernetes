@@ -12,20 +12,17 @@ spec:
       labels:
         app: my-spring-boot-app
     spec:
-      tolerations:
-        - key: "eks.amazonaws.com/compute-type"
-          operator: "Equal"
-          value: "fargate"
-          effect: "NoSchedule"
-        - key: "key1"
-          operator: "Equal"
-          value: "eks"
-          effect: "NoSchedule"
+      spec:
+        serviceAccountName: ecr-access
+      nodeSelector:
+        nodegroup: group1
       containers:
-        - name: spring-container
-          image: srinu641/spring-application-k8s:v1.04
-          ports:
-            - containerPort: 1199
+      - name: spring-container
+        image: srinu641/spring-application-k8s:v1.04
+        ports:
+        - containerPort: 1199
+      imagePullSecrets:
+        - name: spring-application
           resources:
             requests:
               memory: "64Mi"

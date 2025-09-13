@@ -85,6 +85,9 @@ jobs:
 
       - name: Terraform - Checking Version
         run: terraform -version
+        
+
+
 
 #      - name: Trivy Scanning
 #        run:

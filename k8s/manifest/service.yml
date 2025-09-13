@@ -19,7 +19,7 @@
 #    app: ecommerce-application
 ---
 apiVersion: v1
-kind: Service
+#kind: Service
 metadata:
   name: spring-boot-service
   namespace: spring
