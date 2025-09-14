@@ -14,7 +14,6 @@ spec:
       port: 80              # Port exposed inside the cluster
       targetPort: 1199      # Port your Spring Boot app listens on
       nodePort: 30080       # Optional: fixed external port (range 30000–32767)
-
 ---
 #apiVersion: v1
 ##kind: Service
