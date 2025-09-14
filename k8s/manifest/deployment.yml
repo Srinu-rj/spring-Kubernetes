@@ -1,28 +1,32 @@
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-spring-boot-app
+  name: application-ecommerce-deployment
+  #  namespace: spring
+  labels:
+    app: ecommerce-application
 spec:
-  replicas: 9
+  replicas: 30
   selector:
     matchLabels:
-      app: my-spring-boot-app
+      app: ecommerce-application
   template:
     metadata:
       labels:
-        app: my-spring-boot-app
+        app: ecommerce-application
     spec:
       containers:
-      - name: spring-container
-        image: srinu641/spring-application-k8s:v1.04
-        ports:
-        - containerPort: 1199
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
-              cpu: "250m"
-
+        - name: application-server-container
+          image: srinu641/spring-application-k8s:v1.04
+          ports:
+            - containerPort: 1199
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "250m"
 ---
