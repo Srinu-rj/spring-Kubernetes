@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: my-spring-boot-app
+  namespace: spring
 spec:
   replicas: 9
   selector:
@@ -12,10 +13,10 @@ spec:
       labels:
         app: my-spring-boot-app
     spec:
-      spec:
-        serviceAccountName: ecr-access
-      nodeSelector:
-        nodegroup: group1
+#      spec:
+#        serviceAccountName: ecr-access
+#      nodeSelector:
+#        nodegroup: group1
       containers:
       - name: spring-container
         image: srinu641/spring-application-k8s:v1.04
