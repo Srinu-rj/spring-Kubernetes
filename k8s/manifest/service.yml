@@ -1,14 +1,20 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: spring
+  name: springboot-nodeport
+  labels:
+    app: ecommerce-application
 spec:
   type: NodePort
-  ports:
-    - port: 1199
-      targetPort: 1199
   selector:
     app: ecommerce-application
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80              # Port exposed inside the cluster
+      targetPort: 1199      # Port your Spring Boot app listens on
+      nodePort: 30080       # Optional: fixed external port (range 30000–32767)
+
 ---
 #apiVersion: v1
 ##kind: Service
