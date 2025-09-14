@@ -13,17 +13,11 @@ spec:
       labels:
         app: my-spring-boot-app
     spec:
-#      spec:
-#        serviceAccountName: ecr-access
-#      nodeSelector:
-#        nodegroup: group1
       containers:
       - name: spring-container
         image: srinu641/spring-application-k8s:v1.04
         ports:
         - containerPort: 1199
-      imagePullSecrets:
-        - name: spring-application
           resources:
             requests:
               memory: "64Mi"
