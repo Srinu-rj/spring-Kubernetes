@@ -1,41 +1,33 @@
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  name: spring-ecommerce-application-svc
-#  namespace: spring
-#  labels:
-#    app: zomato-svc
-#    annotations:
-#      service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-#      service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enable: "true"
-#      service.beta.kubernetes.io/aws-load-balancer-connection-draining-enable: "true"
-#      service.beta.kubernetes.io/aws-load-balancer-connection-draining-timeout: "30"
-#spec:
-#  type: NodePort
-#  ports:
-#    - port: 1199
-#      targetPort: 1199
-#  selector:
-#    app: ecommerce-application
----
 apiVersion: v1
-#kind: Service
+kind: Service
 metadata:
-  name: spring-boot-service
   namespace: spring
-  labels:
-    app: ecommerce-application
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enable: "true"
-    service.beta.kubernetes.io/aws-load-balancer-connection-draining-enable: "true"
-    service.beta.kubernetes.io/aws-load-balancer-connection-draining-timeout: "30"
 spec:
+  type: NodePort
   ports:
     - port: 1199
-      protocol: TCP
       targetPort: 1199
   selector:
     app: ecommerce-application
-  type: LoadBalancer
+---
+#apiVersion: v1
+##kind: Service
+#metadata:
+#  name: spring-boot-service
+#  namespace: spring
+#  labels:
+#    app: ecommerce-application
+#  annotations:
+#    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+#    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enable: "true"
+#    service.beta.kubernetes.io/aws-load-balancer-connection-draining-enable: "true"
+#    service.beta.kubernetes.io/aws-load-balancer-connection-draining-timeout: "30"
+#spec:
+#  ports:
+#    - port: 1199
+#      protocol: TCP
+#      targetPort: 1199
+#  selector:
+#    app: ecommerce-application
+#  type: LoadBalancer
 ---
