@@ -140,7 +140,7 @@ jobs:
           kubectl get nodes
           kubectl apply -f k8s/manifest/deployment.yml
           kubectl apply -f k8s/manifest/service.yml
-          kubectl apply -f k8s/manifest/Hpa.yml
+#          kubectl apply -f k8s/manifest/Hpa.yml
           kubectl get pods -o wide
           kubectl explain service
           kubectl get all
