@@ -119,7 +119,7 @@ jobs:
 #
       # Update Kubeconfig
       - name: Update kubeconfig
-        run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name nk
+        run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name amazing-jazz-hideout
 
 #       Install kubectl -> todo https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
       - name: Install kubectl
