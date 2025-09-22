@@ -1,0 +1,32 @@
+app:
+  name: ecommerce-application
+  namespace: spring
+  label: ecommerce-application
+  replicas: 6
+  env: production
+  strategy: Recreate
+  container:
+    name: application-server-container
+    image: srinu641/spring-application-k8s:v1.04
+    port: 8080
+    imagePullPolicy: IfNotPresent
+  resources:
+    limits:
+      memory: "256Mi"
+      cpu: "1"
+    requests:
+      memory: "128Mi"
+      cpu: "500m"
+
+  nodeSelector: {}
+service:
+  name: spring-boot-service
+  type: NodePort
+
+
+hpa:
+  name: webserver-cpu-hpa
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 50

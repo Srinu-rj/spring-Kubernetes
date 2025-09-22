@@ -1,38 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: application-ecommerce-deployment
-  namespace: spring
+  name: {{ .Values.app.name }}
+  namespace: {{ .Values.app.namespace }}
   labels:
-    app: ecommerce-application
+    {{- include "app-labels" . | nindent 4 }}
 spec:
-  replicas: 20
+  replicas: {{ .Values.app.replicas }}
   strategy:
-    type: Recreate
+    type: {{ .Values.app.strategy }}
   selector:
     matchLabels:
-      app: ecommerce-application
+      app: ecommerce-application  #todo Labels should be same as template labels
   template:
     metadata:
       labels:
-        app: ecommerce-application
+        {{- include "app-labels" . | nindent 8 }}
     spec:
       containers:
-        - name: application-server-container
-          image: srinu641/spring-application-k8s:v1.04
-          ImagePullPolicy: Always
+        - name: {{ .Values.app.container.name }}
+          image: {{ .Values.app.container.image }}
+          ImagePullPolicy: {{ .Values.app.container.imagePullPolicy }}
           ports:
-            - containerPort: 1199
+            - containerPort: {{ .Values.app.container.port }}
       resources:
-        requests:
-          memory: "64Mi"
-          cpu: "250m"
-        limits:
-          memory: "128Mi"
-          cpu: "250m"
+        {{ .Values.app.resources | toYaml | nindent 8 }}
       startupProbe:
         tcpSocket:
-          port: 8181
+          port: {{ .Values.app.container.port }}
         initialDelaySeconds: 20
         periodSeconds: 5
 ---

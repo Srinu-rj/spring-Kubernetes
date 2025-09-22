@@ -1,12 +1,15 @@
+ {{- if .Values.hpa.enabled }}
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: webserver-cpu-hpa
+  name: {{ .Values.hpa.name }}
+  namespace: {{ .Values.app.namespace }}
 spec:
-  maxReplicas: 20
-  minReplicas: 1
+  maxReplicas: {{ .Values.hpa.maxReplicas }}
+  minReplicas: {{ .Values.hpa.minReplicas }}
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: webserver
+    name: {{ .Values.app.name }}
   targetCPUUtilizationPercentage: 30
+   {{- end -}}
