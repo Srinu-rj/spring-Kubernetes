@@ -1,14 +1,14 @@
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: application-ecommerce-deployment
-  #  namespace: spring
+  namespace: spring
   labels:
     app: ecommerce-application
 spec:
-  replicas: 30
+  replicas: 20
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: ecommerce-application
@@ -20,6 +20,7 @@ spec:
       containers:
         - name: application-server-container
           image: srinu641/spring-application-k8s:v1.04
+          ImagePullPolicy: Always #IfNotPresent
           ports:
             - containerPort: 1199
       resources:
@@ -29,4 +30,9 @@ spec:
         limits:
           memory: "128Mi"
           cpu: "250m"
+      startupProbe:
+        tcpSocket:
+          port: 8181
+        initialDelaySeconds: 20
+        periodSeconds: 5
 ---
