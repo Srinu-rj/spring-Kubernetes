@@ -10,12 +10,12 @@ spec:
   selector:
     matchLabels:
       app: {{ .Values.app.label }}
-      tier: frontend
+      tier: {{ .Values.app.env }}
   template:
     metadata:
       labels:
         app: {{ .Values.app.label }}
-        tier: frontend
+        tier: {{ .Values.app.env }}
     spec: # Pod spec
       containers:
         - name: mycontainer

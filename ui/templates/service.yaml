@@ -5,6 +5,7 @@ metadata:
   namespace: {{ .Values.service.namespace }}
   labels:
     app: {{ .Values.service.label }}
+    env: {{ .Values.app.env }}
 spec:
   ports:
     - port: 1199
@@ -12,5 +13,5 @@ spec:
       name: flask
   selector:
     app: {{ .Values.service.label }}
-    tier: frontend
-  type: LoadBalancer
+    env: {{ .Values.app.env }}
+  type: NodePort

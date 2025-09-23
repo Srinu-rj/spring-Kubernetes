@@ -2,7 +2,7 @@ app:
   name: mydeployment
   namespace: devops
   label: mywebapp
-  replicas: 6
+  replicas: 5
   env: frontend
   strategy: Recreate
   container:
@@ -14,8 +14,8 @@ app:
 
 hpa:
   name: webserver-cpu-hpa
-  enabled: true
-  minReplicas: 2
+  enabled: false
+  minReplicas: 1
   maxReplicas: 20
   targetCPUUtilizationPercentage: 50
 
