@@ -34,6 +34,18 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
+- task: Maven@4
+  inputs:
+    azureSubscription: 'Free-Subscription(98b63508-3949-41ff-8099-f1bd92405eb6)'
+    mavenPomFile: 'pom.xml'
+    goals: 'clean install'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
 - task: CopyFiles@2
   inputs:
     SourceFolder: '${System.DefaultWorkingDirectory}'
