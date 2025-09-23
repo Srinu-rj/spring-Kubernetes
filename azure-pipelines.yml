@@ -9,57 +9,66 @@ trigger:
 pool:
   name: srinu-agent
 
-steps:
-- task: Maven@4
-  inputs:
-    azureSubscription: 'Free-Subscription(98b63508-3949-41ff-8099-f1bd92405eb6)'
-    mavenPomFile: 'pom.xml'
-    goals: 'validate'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
+stages:
+  - stage: maven-compile
+    displayName: 'maven-compile'
+    jobs:
+      - job: maven_compile
+        steps:
+          - task: Maven@4
+            inputs:
+              azureSubscription: 'Free-Subscription(98b63508-3949-41ff-8099-f1bd92405eb6)'
+              mavenPomFile: 'pom.xml'
+              goals: 'clean install'
+              publishJUnitResults: true
+              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              javaHomeOption: 'JDKVersion'
+              mavenVersionOption: 'Default'
+              mavenAuthenticateFeed: false
+              effectivePomSkip: false
+              sonarQubeRunAnalysis: false
 
-- task: Maven@4
-  inputs:
-    azureSubscription: 'Free-Subscription(98b63508-3949-41ff-8099-f1bd92405eb6)'
-    mavenPomFile: 'pom.xml'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
-- task: Maven@4
-  inputs:
-    azureSubscription: 'Free-Subscription(98b63508-3949-41ff-8099-f1bd92405eb6)'
-    mavenPomFile: 'pom.xml'
-    goals: 'clean install'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
+  - stage: maven-package
+    displayName: 'maven-package'
+    jobs:
+      - job: maven_package
+        steps:
+          - task: Maven@4
+            inputs:
+              azureSubscription: 'Free-Subscription(98b63508-3949-41ff-8099-f1bd92405eb6)'
+              mavenPomFile: 'pom.xml'
+              goals: 'clean install'
+              publishJUnitResults: true
+              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              javaHomeOption: 'JDKVersion'
+              mavenVersionOption: 'Default'
+              mavenAuthenticateFeed: false
+              effectivePomSkip: false
+              sonarQubeRunAnalysis: false
 
-- task: CopyFiles@2
-  displayName: 'Copy .jar file'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '/*.jar'
-    TargetFolder: '$(build.artifactstagingdirectory)'
-  condition: succeededOrFailed()
+  - stage: copy jar file
+    displayName: 'Jar-file'
+    jobs:
+      - job: jar-file
+        steps:
+          - task: CopyFiles@2
+            displayName: 'Copy .jar file'
+            inputs:
+              SourceFolder: '$(system.defaultworkingdirectory)'
+              Contents: '/*.jar'
+              TargetFolder: '$(build.artifactstagingdirectory)'
+            condition: succeededOrFailed()
 
+  - stage: PublishBuildArtifact
+    displayName: "PublishBuildArtifacts"
+    jobs:
+      - job: PublishBuildArtifacts
+        steps:
+            - task: PublishBuildArtifacts@1
+              inputs:
+               PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+               ArtifactName: 'drop'
+               publishLocation: 'Container'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-
+        
 
