@@ -1,0 +1,32 @@
+app:
+  name: mydeployment
+  namespace: devops
+  label: mywebapp
+  replicas: 6
+  env: frontend
+  strategy: Recreate
+  container:
+    name: application-server-container
+    image: srinu641/spring-application-k8s
+    tag: v1.04
+    port: 1199
+    imagePullPolicy: IfNotPresent
+
+hpa:
+  name: webserver-cpu-hpa
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 50
+
+service:
+  appName: mywebapp
+  namespace: devops
+  label: mywebapp
+
+nodeSelector: {}
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+affinity: {}
+securityContext: {}

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.appName }}
+  namespace: {{ .Values.service.namespace }}
+  labels:
+    app: {{ .Values.service.label }}
+spec:
+  ports:
+    - port: 1199
+      protocol: TCP
+      name: flask
+  selector:
+    app: {{ .Values.service.label }}
+    tier: frontend
+  type: LoadBalancer

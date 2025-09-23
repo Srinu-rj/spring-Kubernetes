@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  namespace: {{ .Values.app.namespace }}
+  labels:
+    app: mywebapp
+spec:
+  replicas: {{ .Values.app.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.label }}
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.label }}
+        tier: frontend
+    spec: # Pod spec
+      containers:
+        - name: mycontainer
+          image: "{{ .Values.app.container.image }}:{{ .Values.app.container.tag }}"
+          imagePullPolicy: {{ .Values.app.container.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.app.container.port }}
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "50m"    # 50 milli cores (1/20 CPU)
+            limits:
+              memory: "128Mi" # 128 mebibytes
+              cpu: "100m"
+---
