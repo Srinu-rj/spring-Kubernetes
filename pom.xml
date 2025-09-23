@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1</version>
     <name>demo</name>
     <description>Demo project for Spring Boot</description>
     <url/>
@@ -31,6 +31,18 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
+    <distributionManagement>
+        <repository>
+            <id>demo</id>
+            <url>https://pkgs.dev.azure.com/dnsrinu143/Raju-Azure/_packaging/demo/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </distributionManagement>
 
 <!--   TODO Pushing Artifacts to JFrog:  -->
 <!--    <distributionManagement>-->

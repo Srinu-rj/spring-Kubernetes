@@ -154,7 +154,8 @@ _checkouts/
 # .idea/modules
 # *.iml
 # *.ipr
-
+#
+settings.xml
 # CMake
 cmake-build-*/
 
