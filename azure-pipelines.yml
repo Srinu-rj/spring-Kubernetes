@@ -48,10 +48,12 @@ steps:
     sonarQubeRunAnalysis: false
 
 - task: CopyFiles@2
+  displayName: 'Copy .jar file'
   inputs:
-    SourceFolder: '${System.DefaultWorkingDirectory}'
-    Contents: '**/*.jar'
-    TargetFolder: '${build.artifactstagingDirectory}'
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '/*.jar'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
 
 - task: PublishBuildArtifacts@1
   inputs:
