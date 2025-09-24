@@ -31,39 +31,6 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-    <distributionManagement>
-        <repository>
-            <id>demo</id>
-            <url>https://pkgs.dev.azure.com/dnsrinu143/Raju-Azure/_packaging/demo/maven/v1</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </distributionManagement>
-
-<!--   TODO Pushing Artifacts to JFrog:  -->
-<!--    <distributionManagement>-->
-<!--        <repository>-->
-<!--            <id>central</id>-->
-<!--            <name>libs-release</name>-->
-<!--            <url>http://198.172.0.1:8081/artifactory/libs-release-local</url>-->
-<!--        </repository>-->
-<!--        <snapshotRepository>-->
-<!--            <id>snapshots</id>-->
-<!--            <name>libs-snapshot</name>-->
-<!--            <url>http://198.172.0.1:8081/artifactory/libs-snapshot-local</url>-->
-<!--        </snapshotRepository>-->
-<!--    </distributionManagement>-->
-
-<!--    <repositories>-->
-<!--        <repository>-->
-<!--            <id>jfrog-artifactory</id>-->
-<!--            <url>https://your-artifactory-instance/artifactory/libs-release</url>-->
-<!--        </repository>-->
-<!--    </repositories>-->
 
     <dependencies>
         <dependency>
@@ -87,29 +54,55 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>dnsrinu143</id>
+            <url>https://pkgs.dev.azure.com/dnsrinu143/_packaging/dnsrinu143/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <repository>
+            <id>dnsrinu143</id>
+            <url>https://pkgs.dev.azure.com/dnsrinu143/_packaging/dnsrinu143/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </distributionManagement>
+
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-<!--            <plugin>-->
-<!--                <artifactId/>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>publish</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <contextUrl>https://your-artifactory-instance/artifactory</contextUrl>-->
-<!--                            <repoKey>libs-release-local</repoKey>-->
-<!--                            <snapshotRepoKey>libs-snapshot-local</snapshotRepoKey>-->
-<!--                            <username>${env.JFROG_USER}</username>-->
-<!--                            <password>${env.JFROG_PASSWORD}</password>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <artifactId/>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <goals>-->
+            <!--                            <goal>publish</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+            <!--                            <contextUrl>https://your-artifactory-instance/artifactory</contextUrl>-->
+            <!--                            <repoKey>libs-release-local</repoKey>-->
+            <!--                            <snapshotRepoKey>libs-snapshot-local</snapshotRepoKey>-->
+            <!--                            <username>${env.JFROG_USER}</username>-->
+            <!--                            <password>${env.JFROG_PASSWORD}</password>-->
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
         </plugins>
 
         <finalName>spring-application-k8s</finalName>
