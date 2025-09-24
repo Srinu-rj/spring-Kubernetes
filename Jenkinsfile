@@ -84,6 +84,7 @@ pipeline {
                }
             }
         }
+//         cd
 		stage('Checking EKS Access') {
 			steps {
 				withAWS(credentials: 'aws-creds') {
