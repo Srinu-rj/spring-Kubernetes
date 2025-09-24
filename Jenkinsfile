@@ -145,6 +145,7 @@ pipeline {
 					sh 'kubectl get pods,deploy,svc -n production'
 				}
 			}
+
 		stage('Destroy App In Prod Namespace') {
 			when {
 				expression {
