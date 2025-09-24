@@ -84,6 +84,7 @@ pipeline {
                }
             }
         }
+//         cd
 		stage('Checking EKS Access') {
 			steps {
 				withAWS(credentials: 'aws-creds') {
@@ -145,6 +146,7 @@ pipeline {
 					sh 'kubectl get pods,deploy,svc -n production'
 				}
 			}
+
 		stage('Destroy App In Prod Namespace') {
 			when {
 				expression {
