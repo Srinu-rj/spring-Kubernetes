@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb051b1d-937b-489a-8376-4d297a5bbdd5" name="Changes" comment="Test Branch">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="eb051b1d-937b-489a-8376-4d297a5bbdd5" name="Changes" comment="Maven Update">
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -273,7 +272,23 @@
       <option name="project" value="LOCAL" />
       <updated>1758724836388</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Test Branch">
+      <option name="closed" value="true" />
+      <created>1758727204531</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1758727204531</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Maven Update">
+      <option name="closed" value="true" />
+      <created>1758727579264</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1758727579264</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -308,6 +323,7 @@
     <MESSAGE value="Helm K8s Deployment" />
     <MESSAGE value="Helm kubernetes Deployment" />
     <MESSAGE value="Test Branch" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test Branch" />
+    <MESSAGE value="Maven Update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Maven Update" />
   </component>
 </project>
