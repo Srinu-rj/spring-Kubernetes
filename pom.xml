@@ -54,29 +54,25 @@
         </dependency>
     </dependencies>
 
+    <!--    Nexus Repository-->
     <repositories>
         <repository>
-            <id>dnsrinu143</id>
-            <url>https://pkgs.dev.azure.com/dnsrinu143/_packaging/dnsrinu143/maven/v1</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
+            <id>maven-releases</id>
+            <url>http://74.224.122.155:8081/repository/maven-releases/</url>
         </repository>
     </repositories>
+
+    <!--    Nexus Repository-->
     <distributionManagement>
         <repository>
-            <id>dnsrinu143</id>
-            <url>https://pkgs.dev.azure.com/dnsrinu143/_packaging/dnsrinu143/maven/v1</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
+            <id>maven-releases</id>
+            <url>http://74.224.122.155:8081/repository/maven-releases/</url>
         </repository>
+
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <url>http://74.224.122.155:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
 
