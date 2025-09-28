@@ -93,9 +93,16 @@ steps:
       # sonar.exclusions=**/*.bin
       sonar.java.binaries=.
 
+- task: JavaToolInstaller@1
+  inputs:
+    versionSpec: '17'
+    jdkArchitectureOption: 'x86'
+    jdkSourceOption: 'PreInstalled'
 - task: SonarQubeAnalyze@7
   inputs:
     jdkversion: 'JAVA_HOME_17_X64'
+
+
   
 
 # - task: Docker@2
