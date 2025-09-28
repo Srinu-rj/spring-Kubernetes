@@ -13,7 +13,7 @@ steps:
 - task: Maven@4
   inputs:
     azureSubscription: 'Free-Subscription(98b63508-3949-41ff-8099-f1bd92405eb6)'
-    mavenPomFile: 'pom.xml'
+    mavenPomFile: 'Maven Validate'
     goals: 'validate'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
@@ -26,7 +26,20 @@ steps:
 - task: Maven@4
   inputs:
     azureSubscription: 'Free-Subscription(98b63508-3949-41ff-8099-f1bd92405eb6)'
-    mavenPomFile: 'pom.xml'
+    mavenPomFile: 'Maven Compile'
+    goals: 'compile'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false   
+
+- task: Maven@4
+  inputs:
+    azureSubscription: 'Free-Subscription(98b63508-3949-41ff-8099-f1bd92405eb6)'
+    mavenPomFile: 'Maven Package'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
