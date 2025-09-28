@@ -78,20 +78,24 @@ steps:
 - task: MavenAuthenticate@0
   inputs:
     artifactsFeeds: 'project-artifect'
-
 - task: SonarQubePrepare@7
   inputs:
     SonarQube: 'sonarqube-azure'
-    scannerMode: 'cli'
+    scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'spring'
-    cliProjectName: 'spring'
+    cliProjectKey: 'spring-app-devops'
+    cliProjectName: 'Spring App DevOps'
     cliSources: '.'
     extraProperties: |
-      # Additional properties that will be passed to the scanner, 
-      # Put one key=value per line, example:
-      # sonar.exclusions=**/*.bin
-      sonar.java.binaries=.
+      sonar.java.binaries=target/classes
+
+- task: SonarQubeAnalyze@7
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+
+- task: SonarQubePublish@7
+  inputs:
+    pollingTimeoutSec: '300'
 
 
 # - task: SonarQubeAnalyze@7
