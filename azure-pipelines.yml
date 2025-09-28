@@ -74,39 +74,42 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+    
 - task: MavenAuthenticate@0
   inputs:
     artifactsFeeds: 'dnsrinu143'
 
-- task: Docker@2
+- task: SonarQubePrepare@7
   inputs:
-    containerRegistry: 'Docker-Hub-Connection'
-    repository: 'srinu641/spring-application-k8s'
-    command: 'buildAndPush'
-    Dockerfile: 'Dockerfile' # Correct if it's in the root
-    tags: 'v2.1'
-    addPipelineData: false
-    addBaseImageData: false
+    SonarQube: 'sonarqube-azure'
+    scannerMode: 'cli'
+    configMode: 'manual'
+    cliProjectKey: 'demo'
+    cliProjectName: 'demo'
+    cliSources: '.'
+    extraProperties: |
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      # sonar.exclusions=**/*.bin
+      sonar.java.binaries=tagget
 
+- task: SonarQubeAnalyze@7
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+  
 
-
-# - task: SonarQubePrepare@7
+# - task: Docker@2
 #   inputs:
-#     SonarQube: 'sonar-demo-test'
-#     scannerMode: 'cli'
-#     configMode: 'manual'
-#     cliProjectKey: 'demo'
-#     cliProjectName: 'demo'
-#     cliSources: '.'
-#     extraProperties: |
-#       # Additional properties that will be passed to the scanner, 
-#       # Put one key=value per line, example:
-#       # sonar.exclusions=**/*.bin
-#       sonar.java.binaries=tagget
+#     containerRegistry: 'Docker-Hub-Connection'
+#     repository: 'srinu641/spring-application-k8s'
+#     command: 'buildAndPush'
+#     Dockerfile: 'Dockerfile' # Correct if it's in the root
+#     tags: 'v2.1'
+#     addPipelineData: false
+#     addBaseImageData: false
 
-# - task: SonarQubeAnalyze@7
-#   inputs:
-#     jdkversion: 'JAVA_HOME_17_X64'
+
+
 
 
 
