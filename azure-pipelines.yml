@@ -92,10 +92,9 @@ steps:
       # Put one key=value per line, example:
       # sonar.exclusions=**/*.bin
       sonar.java.binaries=tagget
-
 - task: SonarQubeAnalyze@7
   inputs:
-    jdkversion: 'JAVA_HOME'
+    jdkversion: 'JAVA_HOME_17_X64'
   
 
 # - task: Docker@2
