@@ -79,19 +79,6 @@ steps:
   inputs:
     artifactsFeeds: 'dnsrinu143'    
 
-- task: Maven@4
-  inputs:
-    mavenPomFile: 'pom.xml'
-    goals: 'install sonar:sonar'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: true
-    sqMavenPluginVersionChoice: 'latest'
-
 - task: SonarQubePrepare@7
   inputs:
     SonarQube: 'sonarqube-azure'
