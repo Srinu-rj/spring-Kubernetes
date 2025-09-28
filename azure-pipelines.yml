@@ -74,8 +74,10 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-
-
+    
+- task: MavenAuthenticate@0
+  inputs:
+    artifactsFeeds: 'project-artifect'
 
 - task: SonarQubePrepare@7
   inputs:
