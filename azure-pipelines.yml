@@ -74,24 +74,38 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-    
+
 - task: MavenAuthenticate@0
   inputs:
-    artifactsFeeds: 'dnsrinu143'
+    artifactsFeeds: 'dnsrinu143'    
+
+- task: Maven@4
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'install sonar:sonar'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: true
+    sqMavenPluginVersionChoice: 'latest'
 
 - task: SonarQubePrepare@7
   inputs:
     SonarQube: 'sonarqube-azure'
     scannerMode: 'cli'
     configMode: 'manual'
-    cliProjectKey: 'demo'
-    cliProjectName: 'demo'
+    cliProjectKey: 'spring'
+    cliProjectName: 'spring'
     cliSources: '.'
     extraProperties: |
       # Additional properties that will be passed to the scanner, 
       # Put one key=value per line, example:
       # sonar.exclusions=**/*.bin
-      sonar.java.binaries=tagget
+      sonar.java.binaries=.
+
 - task: SonarQubeAnalyze@7
   inputs:
     jdkversion: 'JAVA_HOME_17_X64'
