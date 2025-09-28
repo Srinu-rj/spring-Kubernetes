@@ -78,24 +78,36 @@ steps:
   inputs:
     artifactsFeeds: 'dnsrinu143'
 
-- task: SonarQubePrepare@7
+- task: Docker@2
   inputs:
-    SonarQube: 'sonar-demo-test'
-    scannerMode: 'cli'
-    configMode: 'manual'
-    cliProjectKey: 'demo'
-    cliProjectName: 'demo'
-    cliSources: '.'
-    extraProperties: |
-      # Additional properties that will be passed to the scanner, 
-      # Put one key=value per line, example:
-      # sonar.exclusions=**/*.bin
-      sonar.java.binaries=tagget
-
-- task: SonarQubeAnalyze@7
+    containerRegistry: 'Azure-Acr'
+    repository: 'springacrdn'
+    command: 'build'
+    Dockerfile: '**/Dockerfile'
+- task: Docker@2
   inputs:
-    jdkversion: 'JAVA_HOME_17_X64'
+    containerRegistry: 'Azure-Acr'
+    repository: 'springacrdn'
+    command: 'push'
 
-    
+# - task: SonarQubePrepare@7
+#   inputs:
+#     SonarQube: 'sonar-demo-test'
+#     scannerMode: 'cli'
+#     configMode: 'manual'
+#     cliProjectKey: 'demo'
+#     cliProjectName: 'demo'
+#     cliSources: '.'
+#     extraProperties: |
+#       # Additional properties that will be passed to the scanner, 
+#       # Put one key=value per line, example:
+#       # sonar.exclusions=**/*.bin
+#       sonar.java.binaries=tagget
+
+# - task: SonarQubeAnalyze@7
+#   inputs:
+#     jdkversion: 'JAVA_HOME_17_X64'
+
+
 
 
