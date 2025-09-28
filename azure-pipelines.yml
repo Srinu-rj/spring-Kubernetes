@@ -75,9 +75,7 @@ steps:
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
-- task: MavenAuthenticate@0
-  inputs:
-    artifactsFeeds: 'dnsrinu143'    
+
 
 - task: SonarQubePrepare@7
   inputs:
@@ -93,11 +91,7 @@ steps:
       # sonar.exclusions=**/*.bin
       sonar.java.binaries=.
 
-- task: JavaToolInstaller@1
-  inputs:
-    versionSpec: '17'
-    jdkArchitectureOption: 'x86'
-    jdkSourceOption: 'PreInstalled'
+
 - task: SonarQubeAnalyze@7
   inputs:
     jdkversion: 'JAVA_HOME_17_X64'
