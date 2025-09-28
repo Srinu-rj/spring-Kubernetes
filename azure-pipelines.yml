@@ -12,11 +12,19 @@ pool:
 steps:
 - task: Maven@4
   inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    jdkArchitectureOption: 'x64'
+    azureSubscription: 'Azure subscription 1(98b63508-3949-41ff-8099-f1bd92405eb6)'
+    mavenPomFile: 'Maven Validate'
+    goals: 'validate'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.11'
+    mavenVersionOption: 'Default'
+    mavenOptions: '-Xmx3072m'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+- task: ArtifactoryMaven@2
+  inputs:
+    mavenPomFile: 'Maven Compile'
+    goals: 'compile'
