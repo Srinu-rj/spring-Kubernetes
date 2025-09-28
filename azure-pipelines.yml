@@ -89,6 +89,11 @@ steps:
     extraProperties: |
       sonar.java.binaries=target/classes
 
+- task: Maven@4
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'install'
+
 - task: SonarQubeAnalyze@7
   inputs:
     jdkversion: 'JAVA_HOME_17_X64'
