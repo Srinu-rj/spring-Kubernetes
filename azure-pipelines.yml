@@ -34,7 +34,7 @@ steps:
     mavenVersionOption: 'Default'
     mavenAuthenticateFeed: false
     effectivePomSkip: false
-    sonarQubeRunAnalysis: false   
+    sonarQubeRunAnalysis: false
 
 - task: Maven@4
   inputs:
