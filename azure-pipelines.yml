@@ -83,8 +83,8 @@ steps:
     containerRegistry: 'Docker-Hub-Connection'
     repository: 'srinu641/spring-application-k8s'
     command: 'buildAndPush'
-    Dockerfile: '/Dockerfile'
-    tags: 'v2.0'
+    Dockerfile: 'Dockerfile' # Correct if it's in the root
+    tags: 'v2.1'
     addPipelineData: false
     addBaseImageData: false
 
