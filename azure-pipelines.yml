@@ -78,16 +78,12 @@ steps:
 - task: MavenAuthenticate@0
   inputs:
     artifactsFeeds: 'project-artifect'
+
 - task: SonarQubePrepare@7
   inputs:
     SonarQube: 'sonarqube-azure'
-    scannerMode: 'CLI'
-    configMode: 'manual'
-    cliProjectKey: 'spring-app-devops'
-    cliProjectName: 'Spring App DevOps'
-    cliSources: '.'
-    extraProperties: |
-      sonar.java.binaries=.
+    scannerMode: 'other'
+    extraProperties: 'sonar.java.binaries=.'
 
 - task: SonarQubeAnalyze@7
   inputs:
