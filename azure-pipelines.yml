@@ -27,6 +27,19 @@ steps:
   inputs:
     azureSubscription: 'Free-Subscription(98b63508-3949-41ff-8099-f1bd92405eb6)'
     mavenPomFile: 'pom.xml'
+    goals: 'compile'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+
+- task: Maven@4
+  inputs:
+    azureSubscription: 'Free-Subscription(98b63508-3949-41ff-8099-f1bd92405eb6)'
+    mavenPomFile: 'pom.xml'
     goals: 'package'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
@@ -47,3 +60,16 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
+
+- task: CopyFiles@2
+  displayName: 'Copy .jar file'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '/*.jar'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()    
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
