@@ -87,20 +87,13 @@ steps:
     cliProjectName: 'Spring App DevOps'
     cliSources: '.'
     extraProperties: |
-      sonar.java.binaries=target/classes
-
-- task: Maven@4
-  inputs:
-    mavenPomFile: 'pom.xml'
-    goals: 'install'
+      sonar.java.binaries=.
 
 - task: SonarQubeAnalyze@7
   inputs:
     jdkversion: 'JAVA_HOME_17_X64'
 
-- task: SonarQubePublish@7
-  inputs:
-    pollingTimeoutSec: '300'
+
 
 
 # - task: SonarQubeAnalyze@7
