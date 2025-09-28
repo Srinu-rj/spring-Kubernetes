@@ -80,15 +80,15 @@ steps:
 
 - task: Docker@2
   inputs:
-    containerRegistry: 'Azure-Acr'
-    repository: 'springacrdn'
-    command: 'build'
-    Dockerfile: '**/Dockerfile'
-- task: Docker@2
-  inputs:
-    containerRegistry: 'Azure-Acr'
-    repository: 'springacrdn'
-    command: 'push'
+    containerRegistry: 'Docker-Hub-Connection'
+    repository: 'srinu641/spring-application-k8s'
+    command: 'buildAndPush'
+    Dockerfile: '/Dockerfile'
+    tags: 'v2.0'
+    addPipelineData: false
+    addBaseImageData: false
+
+
 
 # - task: SonarQubePrepare@7
 #   inputs:
