@@ -85,7 +85,8 @@ steps:
     scannerMode: 'other'
     extraProperties: 'sonar.java.binaries=.'
 
-- task: SonarQubeAnalyze@7
+
+- task: SonarCloudAnalyze@3
   inputs:
     jdkversion: 'JAVA_HOME_17_X64'
 
