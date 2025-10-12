@@ -7,6 +7,16 @@
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="maven-releases" />
+      <option name="name" value="maven-releases" />
+      <option name="url" value="http://74.224.122.155:8081/repository/maven-releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="project-artifect" />
+      <option name="name" value="project-artifect" />
+      <option name="url" value="https://pkgs.dev.azure.com/dnsrinu143/Raju-Azure/_packaging/project-artifect/maven/v1" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="dnsrinu143" />
       <option name="name" value="dnsrinu143" />
       <option name="url" value="https://pkgs.dev.azure.com/dnsrinu143/_packaging/dnsrinu143/maven/v1" />
