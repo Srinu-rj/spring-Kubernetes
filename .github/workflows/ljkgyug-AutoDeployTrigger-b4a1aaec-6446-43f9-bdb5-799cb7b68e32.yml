@@ -1,0 +1,49 @@
+name: Trigger auto deployment for ljkgyug
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/ljkgyug-AutoDeployTrigger-b4a1aaec-6446-43f9-bdb5-799cb7b68e32.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.LJKGYUG_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.LJKGYUG_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.LJKGYUG_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}
+          _dockerfilePathKey_: _dockerfilePath_
+          _targetLabelKey_: _targetLabel_
+          registryUrl: springboot12309.azurecr.io
+          registryUsername: ${{ secrets.LJKGYUG_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.LJKGYUG_REGISTRY_PASSWORD }}
+          containerAppName: ljkgyug
+          resourceGroup: raju-acr
+          imageToBuild: springboot12309.azurecr.io/ljkgyug:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+
