@@ -74,8 +74,45 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+    
 - task: MavenAuthenticate@0
   inputs:
-    artifactsFeeds: 'dnsrinu143'
+    artifactsFeeds: 'project-artifect'
+
+- task: SonarQubePrepare@7
+  inputs:
+    SonarQube: 'sonarqube-azure'
+    scannerMode: 'other'
+    extraProperties: 'sonar.java.binaries=.'
+
+
+- task: SonarCloudAnalyze@3
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+
+
+
+
+# - task: SonarQubeAnalyze@7
+#   inputs:
+#     jdkversion: 'JAVA_HOME_17_X64'
+
+
+  
+
+# - task: Docker@2
+#   inputs:
+#     containerRegistry: 'Docker-Hub-Connection'
+#     repository: 'srinu641/spring-application-k8s'
+#     command: 'buildAndPush'
+#     Dockerfile: 'Dockerfile' # Correct if it's in the root
+#     tags: 'v2.1'
+#     addPipelineData: false
+#     addBaseImageData: false
+
+
+
+
+
 
 
