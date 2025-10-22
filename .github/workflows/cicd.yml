@@ -100,24 +100,24 @@ jobs:
           docker tag spring-application-k8s srinu641/spring-application-k8s:v4.1
           docker push srinu641/spring-application-k8s:v4.1
 
-#  synk-scrity-scan:
-#    runs-on: ubuntu-latest
-#    needs: [ publish_docker_image, Building-and-Testing]
-#    steps:
-#      - name: Run Snyk to check for vulnerabilities
-#        uses: snyk/actions/node@v1
-#        env:
-#          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#        with:
-#          args: test
-#
-#      - name: Run Snyk on Docker image
-#        uses: snyk/actions/docker@v1
-#        env:
-#          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#        with:
-#          image: srinu641/spring-application-k8s:v4.1
-#          args: test
+  synk-scrity-scan:
+    runs-on: ubuntu-latest
+    needs: [ publish_docker_image, Building-and-Testing]
+    steps:
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@v1
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: test
+
+      - name: Run Snyk on Docker image
+        uses: snyk/actions/docker@v1
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: srinu641/spring-application-k8s:v4.1
+          args: test
 
 
 
