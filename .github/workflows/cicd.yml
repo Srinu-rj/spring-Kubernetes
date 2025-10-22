@@ -85,17 +85,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Upload JAR artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
-          name: my-app-jar
+          name: spring-application-k8s
           path: target/*.jar
-
+          retention-days: 7
       - name: Download JAR artifact
         uses: actions/download-artifact@v4
         with:
-          name: my-app-jar
+          name: spring-boot-jar
           path: ./downloaded
 
+      - name: Show downloaded files
+        run: ls -l downloaded
+
+      - name: Run the JAR
+        run: java -jar ./downloaded/*.jar
 
   publish_docker_image:
     runs-on: ubuntu-latest
