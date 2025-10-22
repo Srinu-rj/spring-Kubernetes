@@ -16,7 +16,7 @@
 # EXPOSE 1199
 # ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
 
-#
+
 # FROM openjdk:17-jdk-alpine
 # WORKDIR /app
 # COPY target/spring-application-k8s.jar /app/spring-application-k8s.jar
@@ -35,24 +35,24 @@
 # ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
 
 
-# FROM maven:3.9.6-eclipse-temurin-22-jammy as build
-# COPY . .
-# RUN mvn clean package -DskipTests
-#
-# FROM openjdk:22-jdk
-# COPY --from=build /target/spring-application-k8s.jar spring-application-k8s.jar
-# EXPOSE 1199
-# ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
-
-
-FROM maven:3.9.6-eclipse-temurin-22-jammy AS build
+FROM maven:3.9.6-eclipse-temurin-22-jammy as build
 COPY . .
-FROM openjdk:17 AS builder
-COPY target/spring-application-k8s.jar spring-application-k8s.jar
+RUN mvn clean package -DskipTests
+
+FROM openjdk:22-jdk
+COPY --from=build /target/spring-application-k8s.jar spring-application-k8s.jar
 EXPOSE 1199
 ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
 
-USER nobody
+#
+# FROM maven:3.9.6-eclipse-temurin-22-jammy AS build
+# COPY . .
+# FROM openjdk:17 AS builder
+# COPY target/spring-application-k8s.jar spring-application-k8s.jar
+# EXPOSE 1199
+# ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
+#
+# USER nobody
 
 
 
