@@ -1,7 +1,10 @@
 name: spring-boot Github Actions
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ "master" ]
+    paths-ignore:
+      - 'k8s/**'
 
 #  schedule:
 #    - cron: '* * * 8 5'
