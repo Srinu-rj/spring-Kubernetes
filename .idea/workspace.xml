@@ -495,7 +495,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761135488654</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="GitHub Action synk">
+      <option name="closed" value="true" />
+      <created>1761135615419</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1761135615419</updated>
+    </task>
+    <task id="LOCAL-00037" summary="GitHub Action synk">
+      <option name="closed" value="true" />
+      <created>1761135850825</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1761135850825</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="UnknownFeatures">

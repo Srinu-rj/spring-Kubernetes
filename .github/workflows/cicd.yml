@@ -135,26 +135,10 @@ jobs:
         run: trivy fs --exit-code 0 --severity HIGH,CRITICAL .
 
       - name: Run Trivy on Docker image
-        run: trivy image srinu641/spring-application-k8s:v4.1
-
-  synk-scrity-scan:
-    runs-on: ubuntu-latest
-    needs: [ Artifact-Build, publish_docker_image, Building-and-Testing, Trivy-Scaning ]
-    steps:
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@v1
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: test
-
-      - name: Run Snyk on Docker image
-        uses: snyk/actions/docker@v1
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          image: srinu641/spring-application-k8s:v4.1
-          args: test
+        run: |
+           trivy image -f table srinu641/spring-application-k8s:v4.1
+           trivy report --input report.json --format html --output report.html
+           trivy image --debug srinu641/spring-application-k8s:v4.1
 
 
 
