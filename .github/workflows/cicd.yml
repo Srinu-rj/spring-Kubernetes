@@ -93,7 +93,7 @@ jobs:
       - name: Download JAR artifact
         uses: actions/download-artifact@v4
         with:
-          name: spring-boot-jar
+          name: spring-application-k8s
           path: ./downloaded
 
       - name: Show downloaded files
