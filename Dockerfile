@@ -48,7 +48,7 @@
 FROM maven:3.9.6-eclipse-temurin-22-jammy AS build
 COPY . .
 FROM openjdk:17 AS builder
-COPY --from=build /target/spring-application-k8s.jar spring-application-k8s.jar
+COPY target/spring-application-k8s.jar spring-application-k8s.jar
 EXPOSE 1199
 ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
 
