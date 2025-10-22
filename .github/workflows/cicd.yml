@@ -110,7 +110,7 @@ jobs:
           scan-type: 'image'
           scan-ref: 'srinu641/spring-application-k8s:v4.1'
         env:
-          TRIVY_SKIP_DB_UPDATE: true
+          TRIVY_SKIP_DB_UPDATE: false
           TRIVY_SKIP_JAVA_DB_UPDATE: true
 
   synk-scrity-scan:
