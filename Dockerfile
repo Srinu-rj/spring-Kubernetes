@@ -34,15 +34,15 @@ ENTRYPOINT ["java","-jar", "spring-application-k8s.jar"]
 # # Step 5: Run the Spring Boot application
 # ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
 
-
-FROM maven:3.9.6-eclipse-temurin-22-jammy as build
-COPY . .
-RUN mvn clean package -DskipTests
-
-FROM openjdk:22-jdk
-COPY --from=build /target/spring-application-k8s.jar spring-application-k8s.jar
-EXPOSE 1199
-ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
+#
+# FROM maven:3.9.6-eclipse-temurin-22-jammy as build
+# COPY . .
+# RUN mvn clean package -DskipTests
+#
+# FROM openjdk:22-jdk
+# COPY --from=build /target/spring-application-k8s.jar spring-application-k8s.jar
+# EXPOSE 1199
+# ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
 
 #
 # FROM maven:3.9.6-eclipse-temurin-22-jammy AS build
