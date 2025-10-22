@@ -2,9 +2,7 @@ name: spring-boot Github Actions
 
 on:
   push:
-    branches: [ "master" ]
-    paths-ignore:
-      - 'k8s/**'
+    branches: [ "main" ]
 
 #  schedule:
 #    - cron: '* * * 8 5'
