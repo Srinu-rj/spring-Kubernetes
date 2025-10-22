@@ -64,6 +64,8 @@ jobs:
           architecture: x64
           cache: 'maven' # Strongly recommended for faster builds!
           cache-dependency-path: 'pom.xml' # Or '**/pom.xml' for multi-module projects
+      - name: Maven Validate
+        run: mvn clean
 
       - name: Maven Validate
         run: mvn validate
@@ -71,11 +73,11 @@ jobs:
       - name: Maven Compile
         run: mvn compile
 
-      - name: Maven Package
-        run: mvn package
-
       - name: Maven clean install
         run: mvn clean install
+
+      - name: Maven Package
+        run: mvn package
 
   publish_docker_image:
     runs-on: ubuntu-latest
