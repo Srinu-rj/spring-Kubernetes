@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb051b1d-937b-489a-8376-4d297a5bbdd5" name="Changes" comment="Maven Update">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azure-pipelines.yml" beforeDir="false" afterPath="$PROJECT_DIR$/azure-pipelines.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/spring-application-k8s.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/spring-application-k8s.jar.original" afterDir="false" />
-    </list>
+    <list default="true" id="eb051b1d-937b-489a-8376-4d297a5bbdd5" name="Changes" comment="Maven Update" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,12 +31,12 @@
     &quot;assignee&quot;: &quot;Srinu-rj&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Srinu-rj/spring-Kubernetes.git&quot;,
-    &quot;accountId&quot;: &quot;30b68a64-c98a-40d0-9201-e79c271f40a8&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Srinu-rj/spring-Kubernetes.git",
+    "accountId": "991c689f-7755-40cd-9953-88e1f13cc257"
   }
-}</component>
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
   </component>
@@ -61,9 +54,10 @@
     "Maven.spring-kubernetes [clean].executor": "Run",
     "Maven.spring-kubernetes [install].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
     "ignore_missing_gitignore": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/k8s-workspace",
+    "last_opened_file_path": "D:/spring-Kubernetes",
     "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.345977",
@@ -315,7 +309,23 @@
       <option name="project" value="LOCAL" />
       <updated>1760271172116</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Maven Update">
+      <option name="closed" value="true" />
+      <created>1761126949235</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1761126949235</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Maven Update">
+      <option name="closed" value="true" />
+      <created>1761126953031</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1761126953031</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="UnknownFeatures">
