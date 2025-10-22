@@ -125,7 +125,7 @@ jobs:
       - name: Run Trivy on Docker image
         run: |
            trivy image -f table srinu641/spring-application-k8s:v4.1
-           trivy report --input report.json --format html --output report.html
+#           trivy report --input report.json --format html --output report.html
 #           trivy image --debug srinu641/spring-application-k8s:v4.1
 
 
