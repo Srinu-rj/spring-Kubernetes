@@ -79,23 +79,15 @@ jobs:
       - name: Maven Package
         run: mvn package
 
-  Artifact-Build:
-    runs-on: ubuntu-latest
-    needs: Building-and-Testing
-    steps:
-      - name: Jar file
-        run: jar -cvf spring-application-k8s spring-Kubernetes\target
-
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
           name: spring-application-k8s
-          path: spring-application-k8s.jar
-
+          path: target/*.jar
 
   publish_docker_image:
     runs-on: ubuntu-latest
-    needs: Artifact-Build
+    needs: Building-and-Testing
     steps:
       - uses: actions/checkout@v4
         with:
@@ -116,7 +108,7 @@ jobs:
 
   Trivy-Scaning:
     runs-on: ubuntu-latest
-    needs: [ Artifact-Build, publish_docker_image, Building-and-Testing ]
+    needs: [ publish_docker_image, Building-and-Testing ]
     steps:
       - name: Install Trivy
         run: |
