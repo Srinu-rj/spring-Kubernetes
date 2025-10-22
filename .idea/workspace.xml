@@ -34,12 +34,12 @@
     &quot;assignee&quot;: &quot;Srinu-rj&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Srinu-rj/spring-Kubernetes.git",
-    "accountId": "991c689f-7755-40cd-9953-88e1f13cc257"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Srinu-rj/spring-Kubernetes.git&quot;,
+    &quot;accountId&quot;: &quot;991c689f-7755-40cd-9953-88e1f13cc257&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
   </component>
@@ -51,22 +51,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.SpringKubernetesApplication.executor": "Run",
-    "Maven.spring-kubernetes [clean].executor": "Run",
-    "Maven.spring-kubernetes [install].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "ignore_missing_gitignore": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/spring-Kubernetes",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.345977",
-    "settings.editor.selected.configurable": "vcs.Git"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.SpringKubernetesApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.spring-kubernetes [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.spring-kubernetes [install].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore_missing_gitignore&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/spring-Kubernetes&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.345977&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\spring-Kubernetes\ui" />
@@ -432,7 +432,47 @@
       <option name="project" value="LOCAL" />
       <updated>1761132898130</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="GitHub Action synk">
+      <option name="closed" value="true" />
+      <created>1761133040274</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1761133040274</updated>
+    </task>
+    <task id="LOCAL-00029" summary="GitHub Action synk">
+      <option name="closed" value="true" />
+      <created>1761133094388</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1761133094388</updated>
+    </task>
+    <task id="LOCAL-00030" summary="GitHub Action synk">
+      <option name="closed" value="true" />
+      <created>1761133210878</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1761133210878</updated>
+    </task>
+    <task id="LOCAL-00031" summary="GitHub Action synk">
+      <option name="closed" value="true" />
+      <created>1761133266867</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1761133266867</updated>
+    </task>
+    <task id="LOCAL-00032" summary="GitHub Action synk">
+      <option name="closed" value="true" />
+      <created>1761133327908</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1761133327908</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="UnknownFeatures">
