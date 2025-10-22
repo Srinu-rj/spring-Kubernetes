@@ -14,4 +14,7 @@
   <component name="ProjectRootManager" version="2" languageLevel="JDK_22" project-jdk-name="21 (2)" project-jdk-type="JavaSDK">
     <output url="file://C:/Program Files/Python313" />
   </component>
+  <component name="SQLPlugin.ProjectConfiguration">
+    <queries />
+  </component>
 </project>
