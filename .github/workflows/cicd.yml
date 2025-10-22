@@ -86,8 +86,8 @@ jobs:
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4 # this is Artifact Uploder
         with:
-          name: ncpl-devops-one.jar # use this name if you want to match it later
-          path: target/ncpl-devops-one.jar
+          name: spring-application-k8s.jar # use this name if you want to match it later
+          path: target/spring-application-k8s.jar
 
   publish_docker_image:
     runs-on: ubuntu-latest
