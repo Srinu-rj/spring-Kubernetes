@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: node-exporter
+  namespace: spring
 spec:
   selector:
     matchLabels:
@@ -36,5 +37,4 @@ spec:
         - name: sysfs
           hostPath:
             path: /sys
-
 ---

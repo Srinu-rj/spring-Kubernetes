@@ -1,4 +1,21 @@
-# Dockerfile
+# FROM eclipse-temurin:17-jdk-alpine AS build
+# WORKDIR /workspace
+# COPY pom.xml .
+# RUN --mount=type=cache,target=/root/.m2 mvn -B -DskipTests dependency:go-offline
+# COPY src ./src
+# RUN --mount=type=cache,target=/root/.m2 mvn -B -DskipTests package
+#
+# FROM eclipse-temurin:17-jre-jammy AS runtime
+# RUN useradd -m appuser
+# WORKDIR /app
+# COPY --from=build /workspace/target/spring-application-k8s.jar ./spring-application-k8s.jar
+# RUN chown appuser:appuser /app/spring-application-k8s.jar
+# USER appuser
+# EXPOSE 1199
+# ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
+
+
+# # Dockerfile
 FROM eclipse-temurin:17-jdk-alpine AS build
 COPY . .
 LABEL maintainer="sreenivasa raju | dnsrinu143@gmail.com"

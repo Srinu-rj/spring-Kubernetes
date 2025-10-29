@@ -5,7 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb051b1d-937b-489a-8376-4d297a5bbdd5" name="Changes" comment="GitHub Action synk">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/cicd.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/cicd.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/argocd/kustomize-application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/argocd/argocd.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/argocd/argocd.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/manifest/demonsets.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/demonsets.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/manifest/deployment.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/deployment.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/manifest/hpa.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/hpa.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/manifest/namespace.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/namespace.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/manifest/service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/nginx-deployment/Deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/nginx-deployment/Service.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/nginx-deployment/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/argocd/helm-application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/rbac/admin/cluster-role.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/rbac/admin/service-account.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/rbac/user/role.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/rbac/user/rolebinding.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/hekm/spring_Kubernetes/SpringKubernetesApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/spring-application-k8s.jar.original" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +75,10 @@
   &quot;keyToString&quot;: {
     &quot;Application.SpringKubernetesApplication.executor&quot;: &quot;Run&quot;,
     &quot;Maven.spring-kubernetes [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.spring-kubernetes [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.spring-kubernetes [deploy].executor&quot;: &quot;Run&quot;,
     &quot;Maven.spring-kubernetes [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.spring-kubernetes [package].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore_missing_gitignore&quot;: &quot;true&quot;,
@@ -71,6 +95,7 @@
       <recent name="D:\spring-Kubernetes\ui" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\spring-Kubernetes\k8s\deployment" />
       <recent name="D:\spring-Kubernetes\k8s\rbac\user" />
       <recent name="D:\spring-Kubernetes\k8s\rbac\admin" />
     </key>
@@ -102,32 +127,6 @@
       <option name="resourceGroup" />
       <option name="stagingFolder" />
       <option name="subscription" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SpringKubernetesApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.hekm.spring_Kubernetes.SpringKubernetesApplication" />
-      <module name="demo" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.hekm.spring_Kubernetes.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="spring-Kubernetes" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="spring-Kubernetes" />
-      <option name="filePath" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -200,6 +199,32 @@
       <option name="docutils_open_in_browser" value="false" />
       <method v="2" />
     </configuration>
+    <configuration name="SpringKubernetesApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.hekm.spring_Kubernetes.SpringKubernetesApplication" />
+      <module name="demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.hekm.spring_Kubernetes.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="spring-Kubernetes" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="spring-Kubernetes" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.SpringKubernetesApplication" />
@@ -214,22 +239,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1758444469099</updated>
-    </task>
-    <task id="LOCAL-00001" summary="azure pipeline">
-      <option name="closed" value="true" />
-      <created>1758533171769</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1758533171769</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Helm Deployment">
-      <option name="closed" value="true" />
-      <created>1758545862855</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1758545862855</updated>
     </task>
     <task id="LOCAL-00003" summary="Helm K8s Deployment">
       <option name="closed" value="true" />
@@ -607,11 +616,28 @@
       <option name="project" value="LOCAL" />
       <updated>1761138714319</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="GitHub Action synk">
+      <option name="closed" value="true" />
+      <created>1761139006186</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1761139006186</updated>
+    </task>
+    <task id="LOCAL-00051" summary="GitHub Action synk">
+      <option name="closed" value="true" />
+      <created>1761139166762</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1761139166762</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="Jenkinsfile" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName="Dockerfile" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="OPEN_GENERIC_TABS">

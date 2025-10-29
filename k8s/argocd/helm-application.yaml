@@ -1,17 +1,21 @@
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: spring
+  name: grade-submission-helm
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/rslim087a/argocd-kubernetes-gitops-tutorial.git
     targetRevision: HEAD
-    path: k8s/deployment
+    path: helm/grade-submission
+    helm:
+      valueFiles:
+        - values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: spring
+    namespace: grade-helm-demo
   syncPolicy:
     automated:
       prune: true
