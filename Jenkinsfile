@@ -82,11 +82,11 @@ podTemplate(
                 env.DEPLOY_ENV  = 'qa-release'
                 env.NAMESPACE   = 'back-end-qa-namespace'
                 env.HELM_VALUES = 'values-qa.yaml'
-            } else if (env.BRANCH_NAME == 'master') {
+            } else if (env.BRANCH_NAME == 'main') {
                 env.DEPLOY_ENV  = 'dev-release'
                 env.NAMESPACE   = 'back-end-dev-namespace'
                 env.HELM_VALUES = 'values-dev.yaml'
-            } else if(env.BRANCH_NAME == 'release'){
+            } else if(env.BRANCH_NAME == 'main'){
                 env.DEPLOY_ENV  = 'prod-release'
                 env.NAMESPACE   = 'back-end-prod-namespace'
                 env.HELM_VALUES = 'values-prod.yaml'

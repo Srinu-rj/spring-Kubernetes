@@ -4,44 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb051b1d-937b-489a-8376-4d297a5bbdd5" name="Changes" comment="GitHub Action synk">
-      <change afterPath="$PROJECT_DIR$/docker-notes.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/img_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/img_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/img_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/img_4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/api-gateway/gateway-class.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/hp-proxy/ha-proxy.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/ingress/clusterIssuer.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/ingress/ingress.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/WellComePage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/jfrog-install.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/aws-ecs.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/cicd.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/main_web-server.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/sonarqube-install.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/deployment/deployment.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/deployment.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/deployment/hpa.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/hpa.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/deployment/service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/manifest/k8s-deployment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/manifest/k8s-deployment.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml.versionsBackup" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hekm/spring_Kubernetes/SpringKubernetesApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hekm/spring_Kubernetes/SpringKubernetesApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/HomePage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/HomePage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/HomePage.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/HomePage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui-0.1.0.tgz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/dev/values-dev.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/cicd.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/prode/values-prod.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/DOCKER-DOC.MD" afterDir="false" />
-    </list>
+    <list default="true" id="eb051b1d-937b-489a-8376-4d297a5bbdd5" name="Changes" comment="GitHub Action synk" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -284,22 +247,6 @@
       <workItem from="1762011327432" duration="822000" />
       <workItem from="1762012433614" duration="58000" />
       <workItem from="1762067639226" duration="998000" />
-    </task>
-    <task id="LOCAL-00004" summary="Helm K8s Deployment">
-      <option name="closed" value="true" />
-      <created>1758593286924</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1758593286924</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Helm kubernetes Deployment">
-      <option name="closed" value="true" />
-      <created>1758616382138</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1758616382138</updated>
     </task>
     <task id="LOCAL-00006" summary="Helm kubernetes Deployment">
       <option name="closed" value="true" />
@@ -677,7 +624,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761722468648</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="GitHub Action synk">
+      <option name="closed" value="true" />
+      <created>1778408023770</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1778408023772</updated>
+    </task>
+    <task id="LOCAL-00054" summary="GitHub Action synk">
+      <option name="closed" value="true" />
+      <created>1778408196938</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1778408196938</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
