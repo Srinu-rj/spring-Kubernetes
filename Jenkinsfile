@@ -9,7 +9,6 @@ final String HELM_RELEASE    = 'backend'
 final String HELM_CHART_PATH = './helm-charts/backend'
 
 
-
 podTemplate(
     serviceAccount: 'jenkins-deployer',
     containers: [
@@ -60,6 +59,7 @@ podTemplate(
             env.IMAGE_TAG = env.GIT_SHORT_SHA
             echo "Image tag: ${env.IMAGE_TAG}"
         }
+
         stage('Upload to Artifactory') {
                     // This uses the Jenkins plugin DSL for simplicity
                     def uploadSpec = """{
@@ -77,7 +77,6 @@ podTemplate(
                     server.publishBuildInfo buildInfo
         }
 
-        // ── Stage 1: Resolve environment ─────────────────────────────────────
         stage('Resolve Environment') {
             if (env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/) {
                 env.DEPLOY_ENV  = 'qa-release'
@@ -101,7 +100,6 @@ podTemplate(
                 sh 'mvn checkstyle:check --batch-mode'
                 sh 'mvn test --batch-mode'
 
-                // Always lint the Helm chart — catches template errors early
                 sh """
                     helm lint ${HELM_CHART_PATH} \
                       --values ${HELM_CHART_PATH}/${env.HELM_VALUES} \
@@ -112,7 +110,6 @@ podTemplate(
 
         stage('Build JAR') {
             container('maven') {
-                // Compile and package, skipping tests (already ran above)
                 sh 'mvn package -DskipTests --batch-mode'
             }
         }
@@ -140,52 +137,52 @@ podTemplate(
             }
         }
 
-        if (env.DEPLOY_ENV == 'production') {
-            stage('Approval Gate — Production') {
-                timeout(time: 30, unit: 'MINUTES') {
-                    input(
-                        message:   "Deploy image ${env.IMAGE_TAG} to PRODUCTION?",
-                        ok:        'Deploy Now',
-                        submitter: 'release-engineers'   // Jenkins user/group with approval rights
-                    )
-                }
-            }
-        }
+//         if (env.DEPLOY_ENV == 'production') {
+//             stage('Approval Gate — Production') {
+//                 timeout(time: 30, unit: 'MINUTES') {
+//                     input(
+//                         message:   "Deploy image ${env.IMAGE_TAG} to PRODUCTION?",
+//                         ok:        'Deploy Now',
+//                         submitter: 'release-engineers'   // Jenkins user/group with approval rights
+//                     )
+//                 }
+//             }
+//         }
 
-        stage("Deploy to ${env.DEPLOY_ENV}") {
-            container('tools') {
-                sh """
-                    # Pull kubeconfig — IRSA provides the credentials for eks:DescribeCluster
-                    aws eks update-kubeconfig \
-                      --name   ${EKS_CLUSTER} \
-                      --region ${AWS_REGION}
+//         stage("Deploy to ${env.DEPLOY_ENV}") {
+//             container('tools') {
+//                 sh """
+//                     # Pull kubeconfig — IRSA provides the credentials for eks:DescribeCluster
+//                     aws eks update-kubeconfig \
+//                       --name   ${EKS_CLUSTER} \
+//                       --region ${AWS_REGION}
+//
+//                     # Actual K8s API access is controlled by RBAC (see k8s-rbac.yaml),
+//                     # not by IAM. The IAM role only gets past the EKS auth layer.
+//                     helm upgrade --install ${HELM_RELEASE} ${HELM_CHART_PATH} \\
+//                       --namespace        ${env.NAMESPACE} \\
+//                       --create-namespace \\
+//                       --values           ${HELM_CHART_PATH}/${env.HELM_VALUES} \\
+//                       --set              image.repository=${ECR_REGISTRY}/${ECR_REPOSITORY} \\
+//                       --set              image.tag=${env.IMAGE_TAG} \\
+//                       --set              environment=${env.DEPLOY_ENV} \\
+//                       --atomic \\
+//                       --cleanup-on-fail \\
+//                       --timeout          5m \\
+//                       --wait
+//                 """
+//             }
+//         }
 
-                    # Actual K8s API access is controlled by RBAC (see k8s-rbac.yaml),
-                    # not by IAM. The IAM role only gets past the EKS auth layer.
-                    helm upgrade --install ${HELM_RELEASE} ${HELM_CHART_PATH} \\
-                      --namespace        ${env.NAMESPACE} \\
-                      --create-namespace \\
-                      --values           ${HELM_CHART_PATH}/${env.HELM_VALUES} \\
-                      --set              image.repository=${ECR_REGISTRY}/${ECR_REPOSITORY} \\
-                      --set              image.tag=${env.IMAGE_TAG} \\
-                      --set              environment=${env.DEPLOY_ENV} \\
-                      --atomic \\
-                      --cleanup-on-fail \\
-                      --timeout          5m \\
-                      --wait
-                """
-            }
-        }
-
-        stage('Verify Rollout') {
-            container('tools') {
-                sh """
-                    kubectl rollout status deployment/${HELM_RELEASE} \
-                      --namespace ${env.NAMESPACE} \
-                      --timeout   300s
-                """
-            }
-        }
+//         stage('Verify Rollout') {
+//             container('tools') {
+//                 sh """
+//                     kubectl rollout status deployment/${HELM_RELEASE} \
+//                       --namespace ${env.NAMESPACE} \
+//                       --timeout   300s
+//                 """
+//             }
+//         }
 
     }
 }
