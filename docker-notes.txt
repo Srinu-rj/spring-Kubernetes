@@ -1,0 +1,26 @@
+docker run -d -p 1199:1199 --name my-app spring-application-k8s:latest
+
+docker create --name my-app -p 8080:8080 your-registry/java-app:latest
+docker start my-app
+
+docker run -it java-app:latest /bin/sh   # make changes
+docker commit <container-id> java-app:patched
+docker run java-app:patched
+
+docker build -t java-app:latest .
+docker run -d -p 8080:8080 java-app:latest
+
+docker ps                                # List running containers
+docker ps -a                             # List all containers (including stopped)
+docker inspect <container>               # Full container details (JSON)
+docker logs <container>                  # View container logs
+docker logs -f <container>              # Follow logs in real time
+docker logs --tail 100 <container>      # Last 100 lines
+docker stats                             # Live CPU/memory usage
+docker top <container>                   # Running processes inside container
+docker port <container>                  # Show port mappings
+
+
+docker rm -f $(docker ps -aq)
+docker rm -f $(docker ps -aq)
+docker rmi -f $(docker images -aq)

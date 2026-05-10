@@ -7,9 +7,8 @@ metadata:
     app: ecommerce-application
 spec:
   ports:
-    - name: http
-      port: 1199              # Port exposed inside the cluster
-      targetPort: 1199      # Port your Spring Boot app listens on
+    - port: 1199
+      targetPort: http # Port exposed inside the cluster      #Port on which the application is running inside the pod
   selector:
     app: ecommerce-application
   type: NodePort

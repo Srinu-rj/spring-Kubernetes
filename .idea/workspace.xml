@@ -5,28 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb051b1d-937b-489a-8376-4d297a5bbdd5" name="Changes" comment="GitHub Action synk">
-      <change afterPath="$PROJECT_DIR$/k8s/argocd/kustomize-application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-notes.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img_4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/api-gateway/gateway-class.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/hp-proxy/ha-proxy.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/ingress/clusterIssuer.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/ingress/ingress.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/WellComePage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/jfrog-install.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/aws-ecs.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/cicd.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/main_web-server.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/sonarqube-install.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/argocd/argocd.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/argocd/argocd.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/manifest/demonsets.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/demonsets.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/manifest/deployment.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/deployment.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/manifest/hpa.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/hpa.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/manifest/namespace.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/namespace.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/manifest/service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/service.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/nginx-deployment/Deployment.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/nginx-deployment/Service.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/nginx-deployment/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/argocd/helm-application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/rbac/admin/cluster-role.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/rbac/admin/service-account.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/rbac/user/role.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/rbac/user/rolebinding.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/deployment/deployment.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/deployment.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/deployment/hpa.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/hpa.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/deployment/service.yml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/deployment/service.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/manifest/k8s-deployment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/manifest/k8s-deployment.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/hekm/spring_Kubernetes/SpringKubernetesApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml.versionsBackup" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/hekm/spring_Kubernetes/SpringKubernetesApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hekm/spring_Kubernetes/SpringKubernetesApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/HomePage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/HomePage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/HomePage.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/HomePage.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/spring-application-k8s.jar.original" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui-0.1.0.tgz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/dev/values-dev.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/cicd.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/prode/values-prod.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/DOCKER-DOC.MD" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +51,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -57,11 +72,18 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Srinu-rj/spring-Kubernetes.git&quot;,
-    &quot;accountId&quot;: &quot;991c689f-7755-40cd-9953-88e1f13cc257&quot;
+    &quot;accountId&quot;: &quot;6b0f8c09-c9e6-4811-b806-0966e0ccb913&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="4AZKY3Mn" />
+  </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
@@ -74,20 +96,37 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Application.SpringKubernetesApplication.executor&quot;: &quot;Run&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;Maven.spring-kubernetes [clean].executor&quot;: &quot;Run&quot;,
     &quot;Maven.spring-kubernetes [compile].executor&quot;: &quot;Run&quot;,
     &quot;Maven.spring-kubernetes [deploy].executor&quot;: &quot;Run&quot;,
     &quot;Maven.spring-kubernetes [install].executor&quot;: &quot;Run&quot;,
     &quot;Maven.spring-kubernetes [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.spring-kubernetes [validate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.spring-kubernetes [verify].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;ignore_missing_gitignore&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/spring-Kubernetes&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.345977&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -95,6 +134,7 @@
       <recent name="D:\spring-Kubernetes\ui" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\spring-Kubernetes\k8s\ingress" />
       <recent name="D:\spring-Kubernetes\k8s\deployment" />
       <recent name="D:\spring-Kubernetes\k8s\rbac\user" />
       <recent name="D:\spring-Kubernetes\k8s\rbac\admin" />
@@ -144,6 +184,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -163,6 +204,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="docs" factoryName="Docutils task">
@@ -201,7 +243,7 @@
     </configuration>
     <configuration name="SpringKubernetesApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.hekm.spring_Kubernetes.SpringKubernetesApplication" />
-      <module name="demo" />
+      <module name="spring-kubernetes" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.hekm.spring_Kubernetes.*" />
@@ -239,14 +281,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1758444469099</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Helm K8s Deployment">
-      <option name="closed" value="true" />
-      <created>1758555127618</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1758555127618</updated>
+      <workItem from="1762011327432" duration="822000" />
+      <workItem from="1762012433614" duration="58000" />
+      <workItem from="1762067639226" duration="998000" />
     </task>
     <task id="LOCAL-00004" summary="Helm K8s Deployment">
       <option name="closed" value="true" />
@@ -632,61 +669,30 @@
       <option name="project" value="LOCAL" />
       <updated>1761139166762</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="GitHub Action synk">
+      <option name="closed" value="true" />
+      <created>1761722468648</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1761722468648</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="Jenkinsfile" />
     <option featureType="com.intellij.fileTypeFactory" implementationName="Dockerfile" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
-    <option name="OPEN_GENERIC_TABS">
-      <map>
-        <entry key="ae3b0b24-5125-4cec-a2bd-bd0cc8ec1e31" value="TOOL_WINDOW" />
-      </map>
-    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="main" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-        <entry key="ae3b0b24-5125-4cec-a2bd-bd0cc8ec1e31">
-          <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="HEAD" />
-                      </list>
-                    </value>
-                  </entry>
-                  <entry key="roots">
-                    <value>
-                      <list>
-                        <option value="$PROJECT_DIR$" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -702,5 +708,13 @@
     <MESSAGE value="GitHub Action Docker" />
     <MESSAGE value="GitHub Action synk" />
     <option name="LAST_COMMIT_MESSAGE" value="GitHub Action synk" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>

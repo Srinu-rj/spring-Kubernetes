@@ -1,0 +1,156 @@
+
+name: CI/CD — Build & Deploy to EKS
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'   # Semantic version tags only, e.g. v1.4.2
+
+# Cancel any in-flight run for the same ref (prevents parallel deploys to the
+# same environment when commits land quickly).
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  AWS_REGION:       ${{ vars.AWS_REGION }}
+  ECR_REGISTRY:     ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ vars.AWS_REGION }}.amazonaws.com
+  ECR_REPOSITORY:   ${{ vars.ECR_REPOSITORY_NAME }}
+  EKS_CLUSTER_NAME: ${{ vars.EKS_CLUSTER_NAME }}
+
+jobs:
+  lint-and-test:
+    name: Lint & Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+
+      - name: Lint (ESLint / Prettier / etc.)
+        run: npm run lint
+
+      - name: Unit tests with coverage
+        run: npm test -- --coverage --ci
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: '3.14.4'
+
+      - name: Lint Helm chart
+        run: |
+          helm lint ./helm/my-app \
+            --values ./helm/my-app/values-staging.yaml \
+            --strict
+
+  build-and-deploy:
+    name: Build → Push → Deploy (${{ needs.resolve-context.outputs.environment }})
+    runs-on: ubuntu-latest
+    needs: [resolve-context, lint-and-test]
+
+    # GitHub Environment gates production behind a manual review step.
+    environment: ${{ needs.resolve-context.outputs.environment }}
+
+    # CRITICAL: id-token:write is required for OIDC token generation.
+    # Do NOT set it at the workflow level — keep it scoped to this job only.
+    permissions:
+      id-token: write
+      contents: read
+
+    env:
+      IMAGE_TAG:   ${{ github.sha }}
+      ENVIRONMENT: ${{ needs.resolve-context.outputs.environment }}
+      NAMESPACE:   ${{ needs.resolve-context.outputs.namespace }}
+      HELM_VALUES: ${{ needs.resolve-context.outputs.helm_values }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── Step 1: Authenticate to AWS via OIDC ─────────────────────────────
+      # Assumes the IAM role via a short-lived token — no static credentials.
+      # The role's trust policy restricts which branch/tag can assume it.
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume:         ${{ needs.resolve-context.outputs.iam_role_arn }}
+          aws-region:             ${{ env.AWS_REGION }}
+          role-session-name:      GitHubActions-${{ env.ENVIRONMENT }}-${{ github.run_id }}
+          role-duration-seconds:  3600
+
+      # ── Step 2: Authenticate to ECR ──────────────────────────────────────
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # ── Step 3: Build and push Docker image ──────────────────────────────
+      # Tags: <git-sha> (immutable, used for deployment)
+      #       <env>-latest (mutable, for human reference only — never deploy from this)
+      - name: Build and push image
+        run: |
+          FULL_IMAGE="${ECR_REGISTRY}/${ECR_REPOSITORY}"
+
+          docker build \
+            --tag  "${FULL_IMAGE}:${IMAGE_TAG}" \
+            --tag  "${FULL_IMAGE}:${ENVIRONMENT}-latest" \
+            --label "org.opencontainers.image.revision=${IMAGE_TAG}" \
+            --label "org.opencontainers.image.environment=${ENVIRONMENT}" \
+            .
+
+          docker push "${FULL_IMAGE}:${IMAGE_TAG}"
+          docker push "${FULL_IMAGE}:${ENVIRONMENT}-latest"
+
+          echo "Pushed: ${FULL_IMAGE}:${IMAGE_TAG}"
+
+      # ── Step 4: Configure kubectl ─────────────────────────────────────────
+      # eks:DescribeCluster (IAM) + K8s RBAC (aws-auth) are both required here.
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Update kubeconfig for EKS
+        run: |
+          aws eks update-kubeconfig \
+            --name   "$EKS_CLUSTER_NAME" \
+            --region "$AWS_REGION"
+
+      # ── Step 5: Helm deploy ───────────────────────────────────────────────
+      # --atomic:           rolls back automatically on failure
+      # --cleanup-on-fail:  deletes new resources on failure to avoid orphans
+      # --wait:             blocks until all pods are ready
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: '3.14.4'
+
+      - name: Deploy with Helm
+        run: |
+          helm upgrade --install my-app ./helm/my-app \
+            --namespace        "$NAMESPACE" \
+            --create-namespace \
+            --values           "./helm/my-app/${HELM_VALUES}" \
+            --set              "image.repository=${ECR_REGISTRY}/${ECR_REPOSITORY}" \
+            --set              "image.tag=${IMAGE_TAG}" \
+            --set              "environment=${ENVIRONMENT}" \
+            --atomic \
+            --cleanup-on-fail \
+            --timeout          5m \
+            --wait
+
+      # ── Step 6: Verify rollout ────────────────────────────────────────────
+      - name: Verify rollout
+        run: |
+          kubectl rollout status deployment/my-app \
+            --namespace "$NAMESPACE" \
+            --timeout   300s

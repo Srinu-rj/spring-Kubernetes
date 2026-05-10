@@ -1,80 +1,21 @@
-# FROM eclipse-temurin:17-jdk-alpine AS build
-# WORKDIR /workspace
-# COPY pom.xml .
-# RUN --mount=type=cache,target=/root/.m2 mvn -B -DskipTests dependency:go-offline
-# COPY src ./src
-# RUN --mount=type=cache,target=/root/.m2 mvn -B -DskipTests package
+# FROM eclipse-temurin:21-jdk-jammy AS builder
+# WORKDIR /build
+# COPY . .
 #
-# FROM eclipse-temurin:17-jre-jammy AS runtime
-# RUN useradd -m appuser
-# WORKDIR /app
-# COPY --from=build /workspace/target/spring-application-k8s.jar ./spring-application-k8s.jar
-# RUN chown appuser:appuser /app/spring-application-k8s.jar
-# USER appuser
+# FROM gcr.io/distroless/java21-debian12
+# COPY --from=builder /build/target/*.jar /spring-application-k8s.jar
 # EXPOSE 1199
-# ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
+# ENTRYPOINT ["java", "-jar", "/spring-application-k8s.jar"]
 
-
-# # Dockerfile
-FROM eclipse-temurin:17-jdk-alpine AS build
+FROM maven:3.9.6-eclipse-temurin-22-jammy AS build
 COPY . .
-LABEL maintainer="sreenivasa raju | dnsrinu143@gmail.com"
-LABEL description="A Docker image for a Spring Boot application."
-EXPOSE 1199
-ENTRYPOINT ["java","-jar", "spring-application-k8s.jar"]
-
-# FROM openjdk:26-oraclelinux8
-# WORKDIR /app
-# COPY target/spring-application-k8s.jar /app/spring-application-k8s.jar
-# COPY src ./src
-# COPY pom.xml .
-# LABEL maintainer="sreenivasa raju | dnsrinu143@gmail.com"
-# LABEL description="A Docker image for a Spring Boot application."
-# EXPOSE 1199
-# ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
-
-
-# FROM openjdk:17-jdk-alpine
-# WORKDIR /app
-# COPY target/spring-application-k8s.jar /app/spring-application-k8s.jar
-# EXPOSE 1199
-# ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
-
-# # Step 1: Use official OpenJDK as base image
-# FROM openjdk:17-jdk-slim
-# # Step 2: Set working directory inside the container
-# WORKDIR /app
-# # Step 3: Copy the JAR file from the host to the container
-# COPY target/spring-application-k8s.jar spring-application-k8s.jar
-# # Step 4: Expose the application port
-# EXPOSE  1199
-# # Step 5: Run the Spring Boot application
-# ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
-
-#
-# FROM maven:3.9.6-eclipse-temurin-22-jammy as build
-# COPY . .
-# RUN mvn clean package -DskipTests
-#
-# FROM openjdk:22-jdk
-# COPY --from=build /target/spring-application-k8s.jar spring-application-k8s.jar
-# EXPOSE 1199
-# ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
-
-#
-# FROM maven:3.9.6-eclipse-temurin-22-jammy AS build
-# COPY . .
-# FROM openjdk:17 AS builder
-# COPY target/spring-application-k8s.jar spring-application-k8s.jar
-# EXPOSE 1199
-# ENTRYPOINT ["java", "-jar", "spring-application-k8s.jar"]
-#
-# USER nobody
-
-
-
-# TODO  DOCKER REF LINKS
-# https://medium.com/@digitaldata03/docker-cmd-vs-entrypoint-key-differences-and-best-practices-2c6d5208d060
-# https://phoenixnap.com/kb/docker-cmd-vs-entrypoint
+FROM openjdk:17 AS builder
+COPY --from=build /target/spring-application-k8s.jar spring-application-k8s.jar
+EXPOSE 8998
+ENTRYPOINT ["java","-jar","spring-application-k8s.jar"]
+LABEL maintainer="SREENIVASA RAJU"
+LABEL version="1.0.0"
+LABEL description="Spring Boot Application with Postgress Database"
+USER nobody
 
 

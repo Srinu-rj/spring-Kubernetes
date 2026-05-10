@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VANTA — Creative Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ─── Reset & Base ─── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+          --ink:     #0b0b0b;
+          --paper:   #f5f0e8;
+          --gold:    #b8973e;
+          --gold-lt: #d4af62;
+          --muted:   #6b6560;
+          --line:    rgba(184,151,62,0.25);
+          --serif:   'Cormorant Garamond', Georgia, serif;
+          --sans:    'Syne', sans-serif;
+          --mono:    'DM Mono', monospace;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+          background: var(--ink);
+          color: var(--paper);
+          font-family: var(--serif);
+          font-size: 18px;
+          line-height: 1.6;
+          overflow-x: hidden;
+        }
+
+        /* ─── Grain overlay ─── */
+        body::before {
+          content: '';
+          position: fixed;
+          inset: 0;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+          background-size: 200px 200px;
+          pointer-events: none;
+          z-index: 999;
+          opacity: 0.55;
+          mix-blend-mode: overlay;
+        }
+
+        /* ─── Animations ─── */
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(28px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        @keyframes slideIn {
+          from { transform: scaleX(0); }
+          to   { transform: scaleX(1); }
+        }
+        @keyframes drift {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50%       { transform: translateY(-18px) rotate(1.5deg); }
+        }
+        @keyframes marquee {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+
+        .fade-up  { animation: fadeUp  0.9s cubic-bezier(0.22,1,0.36,1) both; }
+        .fade-in  { animation: fadeIn  1.2s ease both; }
+
+        /* ─── Nav ─── */
+        nav {
+          position: fixed;
+          top: 0; left: 0; right: 0;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 28px 56px;
+          z-index: 100;
+          animation: fadeIn 1s 0.2s both;
+        }
+        nav::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to bottom, rgba(11,11,11,0.95) 0%, transparent 100%);
+          z-index: -1;
+          pointer-events: none;
+        }
+
+        .logo {
+          font-family: var(--sans);
+          font-weight: 800;
+          font-size: 1.1rem;
+          letter-spacing: 0.3em;
+          color: var(--paper);
+          text-decoration: none;
+          text-transform: uppercase;
+        }
+        .logo span { color: var(--gold); }
+
+        .nav-links {
+          display: flex;
+          gap: 44px;
+          list-style: none;
+        }
+        .nav-links a {
+          font-family: var(--mono);
+          font-size: 0.72rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: var(--muted);
+          text-decoration: none;
+          transition: color 0.3s;
+          position: relative;
+        }
+        .nav-links a::after {
+          content: '';
+          position: absolute;
+          bottom: -4px; left: 0;
+          width: 100%; height: 1px;
+          background: var(--gold);
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+        }
+        .nav-links a:hover { color: var(--paper); }
+        .nav-links a:hover::after { transform: scaleX(1); }
+
+        /* ─── Hero ─── */
+        .hero {
+          min-height: 100vh;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          padding: 0 56px;
+          align-items: center;
+          position: relative;
+          gap: 0;
+        }
+
+        .hero-left {
+          padding-top: 120px;
+          padding-bottom: 80px;
+          animation: fadeUp 1s 0.4s both;
+        }
+
+        .hero-eyebrow {
+          font-family: var(--mono);
+          font-size: 0.7rem;
+          letter-spacing: 0.25em;
+          text-transform: uppercase;
+          color: var(--gold);
+          margin-bottom: 32px;
+          display: flex;
+          align-items: center;
+          gap: 14px;
+        }
+        .hero-eyebrow::before {
+          content: '';
+          display: block;
+          width: 40px;
+          height: 1px;
+          background: var(--gold);
+        }
+
+        .hero-title {
+          font-family: var(--serif);
+          font-size: clamp(4rem, 7vw, 7.5rem);
+          font-weight: 300;
+          line-height: 1.0;
+          color: var(--paper);
+          letter-spacing: -0.02em;
+        }
+        .hero-title em {
+          font-style: italic;
+          color: var(--gold-lt);
+        }
+
+        .hero-sub {
+          margin-top: 36px;
+          max-width: 440px;
+          font-size: 1.05rem;
+          font-weight: 300;
+          color: var(--muted);
+          line-height: 1.8;
+        }
+
+        .hero-cta {
+          margin-top: 56px;
+          display: flex;
+          align-items: center;
+          gap: 36px;
+        }
+        .btn-primary {
+          display: inline-block;
+          padding: 16px 40px;
+          background: var(--gold);
+          color: var(--ink);
+          font-family: var(--mono);
+          font-size: 0.75rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          text-decoration: none;
+          font-weight: 400;
+          transition: background 0.3s, transform 0.3s;
+        }
+        .btn-primary:hover {
+          background: var(--gold-lt);
+          transform: translateY(-2px);
+        }
+        .btn-ghost {
+          font-family: var(--mono);
+          font-size: 0.72rem;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: var(--muted);
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          transition: color 0.3s;
+        }
+        .btn-ghost::after {
+          content: '→';
+          transition: transform 0.3s;
+        }
+        .btn-ghost:hover { color: var(--paper); }
+        .btn-ghost:hover::after { transform: translateX(6px); }
+
+        /* Hero right — decorative panel */
+        .hero-right {
+          position: relative;
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: fadeIn 1.4s 0.6s both;
+        }
+
+        .hero-frame {
+          position: relative;
+          width: 380px;
+          height: 480px;
+        }
+        .hero-frame .frame-box {
+          position: absolute;
+          border: 1px solid var(--line);
+        }
+        .frame-box:nth-child(1) {
+          inset: 0;
+          background: linear-gradient(145deg, rgba(184,151,62,0.06), transparent 60%);
+        }
+        .frame-box:nth-child(2) {
+          top: 24px; left: 24px; right: -24px; bottom: -24px;
+          border-color: rgba(184,151,62,0.1);
+        }
+        .frame-inner {
+          position: absolute;
+          inset: 40px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 32px;
+        }
+        .frame-stat {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .frame-stat .num {
+          font-family: var(--serif);
+          font-size: 3.8rem;
+          font-weight: 300;
+          color: var(--gold-lt);
+          line-height: 1;
+          letter-spacing: -0.04em;
+        }
+        .frame-stat .label {
+          font-family: var(--mono);
+          font-size: 0.65rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--muted);
+        }
+
+        .orb {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(60px);
+          pointer-events: none;
+          animation: drift 8s ease-in-out infinite;
+        }
+        .orb-1 {
+          width: 300px; height: 300px;
+          background: radial-gradient(circle, rgba(184,151,62,0.18) 0%, transparent 70%);
+          top: 10%; right: -60px;
+          animation-delay: 0s;
+        }
+        .orb-2 {
+          width: 200px; height: 200px;
+          background: radial-gradient(circle, rgba(184,151,62,0.1) 0%, transparent 70%);
+          bottom: 15%; left: -40px;
+          animation-delay: -4s;
+        }
+
+        /* ─── Marquee strip ─── */
+        .marquee-wrap {
+          overflow: hidden;
+          border-top: 1px solid var(--line);
+          border-bottom: 1px solid var(--line);
+          padding: 18px 0;
+          background: rgba(184,151,62,0.04);
+        }
+        .marquee-track {
+          display: flex;
+          gap: 0;
+          animation: marquee 22s linear infinite;
+          width: max-content;
+        }
+        .marquee-track span {
+          font-family: var(--mono);
+          font-size: 0.7rem;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: var(--muted);
+          padding: 0 48px;
+          white-space: nowrap;
+        }
+        .marquee-track span.dot {
+          color: var(--gold);
+          padding: 0;
+          letter-spacing: 0;
+        }
+
+        /* ─── Section commons ─── */
+        section { padding: 120px 56px; }
+
+        .section-label {
+          font-family: var(--mono);
+          font-size: 0.65rem;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
+          color: var(--gold);
+          margin-bottom: 64px;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+        .section-label::after {
+          content: '';
+          flex: 1;
+          height: 1px;
+          background: var(--line);
+          max-width: 80px;
+        }
+
+        /* ─── About ─── */
+        .about {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 80px;
+          align-items: start;
+        }
+        .about-left h2 {
+          font-family: var(--serif);
+          font-size: clamp(2.4rem, 4vw, 4rem);
+          font-weight: 300;
+          line-height: 1.15;
+          letter-spacing: -0.02em;
+        }
+        .about-left h2 em { font-style: italic; color: var(--gold-lt); }
+
+        .about-right {
+          padding-top: 12px;
+        }
+        .about-right p {
+          font-size: 1rem;
+          font-weight: 300;
+          color: var(--muted);
+          line-height: 1.9;
+          margin-bottom: 24px;
+        }
+        .about-right p:last-of-type { margin-bottom: 0; }
+
+        /* ─── Services ─── */
+        .services-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 2px;
+          margin-top: 0;
+        }
+
+        .service-card {
+          position: relative;
+          padding: 48px 40px;
+          background: rgba(255,255,255,0.02);
+          border: 1px solid var(--line);
+          transition: background 0.4s, border-color 0.4s;
+          overflow: hidden;
+        }
+        .service-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0;
+          width: 100%; height: 2px;
+          background: var(--gold);
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+        }
+        .service-card:hover { background: rgba(184,151,62,0.05); border-color: rgba(184,151,62,0.4); }
+        .service-card:hover::before { transform: scaleX(1); }
+
+        .service-num {
+          font-family: var(--mono);
+          font-size: 0.65rem;
+          color: var(--gold);
+          letter-spacing: 0.2em;
+          margin-bottom: 28px;
+          opacity: 0.7;
+        }
+        .service-card h3 {
+          font-family: var(--serif);
+          font-size: 1.7rem;
+          font-weight: 300;
+          line-height: 1.2;
+          margin-bottom: 20px;
+          letter-spacing: -0.01em;
+        }
+        .service-card p {
+          font-size: 0.9rem;
+          font-weight: 300;
+          color: var(--muted);
+          line-height: 1.8;
+        }
+
+        /* ─── Work / Portfolio ─── */
+        .work-header {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          margin-bottom: 64px;
+        }
+        .work-header h2 {
+          font-family: var(--serif);
+          font-size: clamp(2.4rem, 4vw, 4rem);
+          font-weight: 300;
+          line-height: 1.1;
+          letter-spacing: -0.02em;
+        }
+        .work-header h2 em { font-style: italic; color: var(--gold-lt); }
+        .work-header a {
+          font-family: var(--mono);
+          font-size: 0.68rem;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--muted);
+          text-decoration: none;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding-bottom: 8px;
+          transition: color 0.3s;
+        }
+        .work-header a:hover { color: var(--paper); }
+        .work-header a::after { content: '→'; }
+
+        .work-grid {
+          display: grid;
+          grid-template-columns: 1.4fr 1fr;
+          grid-template-rows: auto auto;
+          gap: 2px;
+        }
+
+        .work-item {
+          position: relative;
+          overflow: hidden;
+          cursor: pointer;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid var(--line);
+        }
+        .work-item.featured { grid-row: 1 / 3; }
+
+        .work-item-inner {
+          padding: 48px 40px;
+          height: 100%;
+          min-height: 260px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          position: relative;
+        }
+        .work-item.featured .work-item-inner { min-height: 540px; }
+
+        .work-item-bg {
+          position: absolute;
+          inset: 0;
+          opacity: 0;
+          transition: opacity 0.5s;
+        }
+        .work-item:nth-child(1) .work-item-bg { background: linear-gradient(135deg, rgba(184,151,62,0.15), rgba(184,151,62,0.04)); }
+        .work-item:nth-child(2) .work-item-bg { background: linear-gradient(135deg, rgba(107,101,96,0.2), rgba(107,101,96,0.05)); }
+        .work-item:nth-child(3) .work-item-bg { background: linear-gradient(135deg, rgba(184,151,62,0.1), rgba(107,101,96,0.1)); }
+        .work-item:hover .work-item-bg { opacity: 1; }
+
+        .work-tag {
+          font-family: var(--mono);
+          font-size: 0.62rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--gold);
+          opacity: 0.75;
+        }
+        .work-item h3 {
+          font-family: var(--serif);
+          font-size: 1.6rem;
+          font-weight: 300;
+          line-height: 1.2;
+          margin-top: 20px;
+          letter-spacing: -0.01em;
+        }
+        .work-item.featured h3 { font-size: 2.4rem; }
+
+        .work-arrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          font-family: var(--mono);
+          font-size: 0.65rem;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--muted);
+          margin-top: 24px;
+          transition: color 0.3s, gap 0.3s;
+        }
+        .work-item:hover .work-arrow { color: var(--gold-lt); gap: 18px; }
+        .work-arrow::after { content: '→'; }
+
+        /* ─── Process ─── */
+        .process { background: rgba(184,151,62,0.03); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+        .process-steps {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1px;
+          background: var(--line);
+          margin-top: 24px;
+        }
+        .process-step {
+          background: var(--ink);
+          padding: 48px 36px 48px;
+          position: relative;
+          transition: background 0.4s;
+        }
+        .process-step:hover { background: rgba(184,151,62,0.04); }
+
+        .step-num {
+          font-family: var(--serif);
+          font-size: 4rem;
+          font-weight: 300;
+          color: rgba(184,151,62,0.15);
+          line-height: 1;
+          margin-bottom: 20px;
+          letter-spacing: -0.05em;
+        }
+        .process-step h3 {
+          font-family: var(--serif);
+          font-size: 1.4rem;
+          font-weight: 300;
+          margin-bottom: 14px;
+          letter-spacing: -0.01em;
+        }
+        .process-step p {
+          font-size: 0.88rem;
+          font-weight: 300;
+          color: var(--muted);
+          line-height: 1.8;
+        }
+
+        /* ─── Testimonial ─── */
+        .testimonial {
+          text-align: center;
+          max-width: 760px;
+          margin: 0 auto;
+          padding: 120px 56px;
+        }
+        .testimonial blockquote {
+          font-family: var(--serif);
+          font-size: clamp(1.6rem, 3vw, 2.6rem);
+          font-weight: 300;
+          font-style: italic;
+          line-height: 1.4;
+          color: var(--paper);
+          letter-spacing: -0.01em;
+          margin-bottom: 48px;
+          position: relative;
+        }
+        .testimonial blockquote::before {
+          content: '\201C';
+          font-size: 8rem;
+          color: var(--gold);
+          opacity: 0.2;
+          position: absolute;
+          top: -40px; left: -20px;
+          line-height: 1;
+          font-style: normal;
+        }
+        .testimonial cite {
+          font-family: var(--mono);
+          font-size: 0.68rem;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: var(--muted);
+          font-style: normal;
+        }
+        .testimonial cite strong {
+          color: var(--gold);
+          font-weight: 400;
+        }
+
+        /* ─── Contact ─── */
+        .contact {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 100px;
+          align-items: start;
+          border-top: 1px solid var(--line);
+        }
+        .contact-left h2 {
+          font-family: var(--serif);
+          font-size: clamp(2.6rem, 4.5vw, 5rem);
+          font-weight: 300;
+          line-height: 1.1;
+          letter-spacing: -0.02em;
+          margin-bottom: 36px;
+        }
+        .contact-left h2 em { font-style: italic; color: var(--gold-lt); }
+        .contact-left p {
+          font-size: 0.95rem;
+          font-weight: 300;
+          color: var(--muted);
+          line-height: 1.9;
+          max-width: 380px;
+        }
+
+        .contact-right {
+          padding-top: 8px;
+        }
+        .contact-info-row {
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+          border-top: 1px solid var(--line);
+        }
+        .contact-info-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 22px 0;
+          border-bottom: 1px solid var(--line);
+          transition: background 0.3s;
+        }
+        .contact-info-item:hover {
+          padding-left: 8px;
+        }
+        .contact-info-item .ci-label {
+          font-family: var(--mono);
+          font-size: 0.62rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--muted);
+        }
+        .contact-info-item .ci-value {
+          font-family: var(--serif);
+          font-size: 1.05rem;
+          font-weight: 300;
+          color: var(--paper);
+          text-decoration: none;
+          transition: color 0.3s;
+        }
+        .contact-info-item:hover .ci-value { color: var(--gold-lt); }
+
+        .contact-email-cta {
+          margin-top: 44px;
+          display: inline-block;
+          font-family: var(--serif);
+          font-size: 1.5rem;
+          font-weight: 300;
+          font-style: italic;
+          color: var(--paper);
+          text-decoration: none;
+          border-bottom: 1px solid var(--gold);
+          padding-bottom: 6px;
+          transition: color 0.3s, border-color 0.3s;
+        }
+        .contact-email-cta:hover { color: var(--gold-lt); }
+
+        /* ─── Footer ─── */
+        footer {
+          padding: 40px 56px;
+          border-top: 1px solid var(--line);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .footer-logo {
+          font-family: var(--sans);
+          font-weight: 800;
+          font-size: 0.9rem;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
+          text-decoration: none;
+          color: var(--muted);
+        }
+        .footer-logo span { color: var(--gold); }
+        .footer-copy {
+          font-family: var(--mono);
+          font-size: 0.62rem;
+          letter-spacing: 0.12em;
+          color: var(--muted);
+        }
+        .footer-links {
+          display: flex;
+          gap: 32px;
+          list-style: none;
+        }
+        .footer-links a {
+          font-family: var(--mono);
+          font-size: 0.62rem;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: var(--muted);
+          text-decoration: none;
+          transition: color 0.3s;
+        }
+        .footer-links a:hover { color: var(--gold); }
+
+        /* ─── Scrollbar ─── */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--ink); }
+        ::-webkit-scrollbar-thumb { background: var(--gold); opacity: 0.5; }
+
+        /* ─── Selection ─── */
+        ::selection { background: rgba(184,151,62,0.3); color: var(--paper); }
+    </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+    <a href="#" class="logo">V<span>·</span>ANTA</a>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-left">
+        <div class="hero-eyebrow">Creative Studio · Est. 2019</div>
+        <h1 class="hero-title">
+            We craft<br>
+            <em>worlds</em> from<br>
+            pixels.
+        </h1>
+        <p class="hero-sub">
+            A design studio obsessed with the intersection of craft and technology — building digital experiences that linger long after the screen goes dark.
+        </p>
+        <div class="hero-cta">
+            <a href="#work" class="btn-primary">View Our Work</a>
+            <a href="#contact" class="btn-ghost">Start a Project</a>
+        </div>
+    </div>
+    <div class="hero-right">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="hero-frame">
+            <div class="frame-box"></div>
+            <div class="frame-box"></div>
+            <div class="frame-inner">
+                <div class="frame-stat">
+                    <span class="num">127</span>
+                    <span class="label">Projects delivered</span>
+                </div>
+                <div class="frame-stat">
+                    <span class="num">98%</span>
+                    <span class="label">Client satisfaction</span>
+                </div>
+                <div class="frame-stat">
+                    <span class="num">14</span>
+                    <span class="label">Awards won</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-wrap">
+    <div class="marquee-track">
+        <span>Brand Identity</span><span class="dot"> ✦ </span>
+        <span>Web Design</span><span class="dot"> ✦ </span>
+        <span>Motion Design</span><span class="dot"> ✦ </span>
+        <span>UX Strategy</span><span class="dot"> ✦ </span>
+        <span>Product Design</span><span class="dot"> ✦ </span>
+        <span>Art Direction</span><span class="dot"> ✦ </span>
+        <span>Design Systems</span><span class="dot"> ✦ </span>
+        <!-- Duplicate for seamless loop -->
+        <span>Brand Identity</span><span class="dot"> ✦ </span>
+        <span>Web Design</span><span class="dot"> ✦ </span>
+        <span>Motion Design</span><span class="dot"> ✦ </span>
+        <span>UX Strategy</span><span class="dot"> ✦ </span>
+        <span>Product Design</span><span class="dot"> ✦ </span>
+        <span>Art Direction</span><span class="dot"> ✦ </span>
+        <span>Design Systems</span><span class="dot"> ✦ </span>
+    </div>
+</div>
+
+<!-- About -->
+<section id="about">
+    <div class="section-label">About us</div>
+    <div class="about">
+        <div class="about-left">
+            <h2>Design is a <em>language.</em> We are fluent.</h2>
+        </div>
+        <div class="about-right">
+            <p>
+                Founded in the belief that great design changes how people feel — not just what they see — VANTA brings together strategists, typographers, engineers, and storytellers under one obsessive roof.
+            </p>
+            <p>
+                We work with founders building their first impression and corporations reinventing their fortieth. Every project starts the same way: a blank page and an honest conversation about what actually matters.
+            </p>
+            <p>
+                Our process is unhurried and deliberate. The work reflects that.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Services -->
+<section id="services" style="padding-top: 0;">
+    <div class="section-label">What we do</div>
+    <div class="services-grid">
+        <div class="service-card">
+            <div class="service-num">01</div>
+            <h3>Brand Identity</h3>
+            <p>From naming and positioning to visual systems and voice — we build brands that occupy territory and hold it.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-num">02</div>
+            <h3>Digital Experience</h3>
+            <p>Websites and applications built on the principle that interaction should feel inevitable — never arbitrary.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-num">03</div>
+            <h3>Art Direction</h3>
+            <p>Visual storytelling across campaigns, editorial, and content — coherent across every touchpoint and medium.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-num">04</div>
+            <h3>Motion & Film</h3>
+            <p>Title sequences, brand films, UI animation — movement that communicates intent, not decoration.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-num">05</div>
+            <h3>Design Systems</h3>
+            <p>The infrastructure of consistent design: tokens, components, documentation, and the governance to sustain them.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-num">06</div>
+            <h3>Strategy & Research</h3>
+            <p>Audience insight, competitive mapping, and the positioning work that makes every creative decision defensible.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Work -->
+<section id="work">
+    <div class="work-header">
+        <h2>Selected<br><em>work</em></h2>
+        <a href="#">All projects</a>
+    </div>
+    <div class="work-grid">
+        <div class="work-item featured">
+            <div class="work-item-bg"></div>
+            <div class="work-item-inner">
+                <div>
+                    <div class="work-tag">Brand Identity · 2024</div>
+                    <h3>Aurelius Financial — Redefining trust in wealth management.</h3>
+                </div>
+                <span class="work-arrow">View project</span>
+            </div>
+        </div>
+        <div class="work-item">
+            <div class="work-item-bg"></div>
+            <div class="work-item-inner">
+                <div>
+                    <div class="work-tag">Digital Experience · 2024</div>
+                    <h3>Solace Health — A calmer approach to care.</h3>
+                </div>
+                <span class="work-arrow">View project</span>
+            </div>
+        </div>
+        <div class="work-item">
+            <div class="work-item-bg"></div>
+            <div class="work-item-inner">
+                <div>
+                    <div class="work-tag">Art Direction · 2023</div>
+                    <h3>Méridien — Luxury travel, reimagined.</h3>
+                </div>
+                <span class="work-arrow">View project</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process -->
+<section class="process">
+    <div class="section-label">How we work</div>
+    <div class="process-steps">
+        <div class="process-step">
+            <div class="step-num">01</div>
+            <h3>Discover</h3>
+            <p>We listen before we speak. Immersive research, stakeholder interviews, and audience mapping to understand the real problem.</p>
+        </div>
+        <div class="process-step">
+            <div class="step-num">02</div>
+            <h3>Define</h3>
+            <p>Strategy before aesthetics. We establish position, voice, and the creative brief that all decisions will answer to.</p>
+        </div>
+        <div class="process-step">
+            <div class="step-num">03</div>
+            <h3>Design</h3>
+            <p>Iteration in the open. You see the thinking, not just the outcomes — and you shape what comes next at every stage.</p>
+        </div>
+        <div class="process-step">
+            <div class="step-num">04</div>
+            <h3>Deliver</h3>
+            <p>Launch-ready assets, handoff documentation, and the knowledge transfer that makes the work self-sustaining.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonial -->
+<div class="testimonial">
+    <div class="section-label" style="justify-content:center; margin-bottom:56px;">Client voice</div>
+    <blockquote>
+        "VANTA didn't just redesign our brand — they helped us understand who we were trying to be. The clarity we gained was worth more than the deliverables."
+    </blockquote>
+    <cite><strong>Mara Osei</strong> · Chief Brand Officer, Aurelius Financial</cite>
+</div>
+
+<!-- Contact -->
+<section id="contact" class="contact">
+    <div class="contact-left">
+        <div class="section-label">Get in touch</div>
+        <h2>Let's make something <em>worth remembering.</em></h2>
+        <p>Whether you have a brief ready or just a feeling that something needs to change — we'd love to hear from you.</p>
+        <a href="mailto:hello@vanta.studio" class="contact-email-cta">hello@vanta.studio</a>
+    </div>
+    <div class="contact-right">
+        <div class="contact-info-row">
+            <div class="contact-info-item">
+                <span class="ci-label">Location</span>
+                <span class="ci-value">Berlin, Germany</span>
+            </div>
+            <div class="contact-info-item">
+                <span class="ci-label">New projects</span>
+                <span class="ci-value">Open · Q3 2025</span>
+            </div>
+            <div class="contact-info-item">
+                <span class="ci-label">Instagram</span>
+                <a href="#" class="ci-value">@vanta.studio</a>
+            </div>
+            <div class="contact-info-item">
+                <span class="ci-label">LinkedIn</span>
+                <a href="#" class="ci-value">VANTA Studio</a>
+            </div>
+            <div class="contact-info-item">
+                <span class="ci-label">Awards</span>
+                <a href="#" class="ci-value">Awwwards, CSS Design</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <a href="#" class="footer-logo">V<span>·</span>ANTA</a>
+    <p class="footer-copy">© 2025 VANTA Studio. All rights reserved.</p>
+    <ul class="footer-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Imprint</a></li>
+        <li><a href="#">Careers</a></li>
+    </ul>
+</footer>
+
+</body>
+</html>

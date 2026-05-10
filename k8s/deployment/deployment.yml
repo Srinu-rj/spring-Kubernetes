@@ -6,7 +6,7 @@ metadata:
   labels:
     app: ecommerce-application
 spec:
-  replicas: 10
+  replicas: 8
   selector:
     matchLabels:
       app: ecommerce-application
@@ -15,12 +15,20 @@ spec:
       labels:
         app: ecommerce-application
     spec:
+      securityContext: #TODO runAsUser, runAsGroup, fsGroup, allowPrivilegeEscalation, and readOnlyRootFilesystem
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+        supplementalGroups: [ 1002 ]
+        runAsNonRoot: true
+#        allowPrivilegeEscalation: true
       containers:
         - name: application-server-container
-          image: srinu641/spring-application-k8s:v1.04
+          image: srinu641/spring-application-k8s:v1.02
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 1199
+            - name: http
+              containerPort: 1199
           resources:
             requests:
               memory: "64Mi"
@@ -28,5 +36,16 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "250m"
-
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 1199
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 1199
+            initialDelaySeconds: 20
+            periodSeconds: 10
 ---
